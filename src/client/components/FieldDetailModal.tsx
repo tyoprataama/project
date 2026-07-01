@@ -73,6 +73,7 @@ const expenseCategoryLabel: Record<string, string> = {
   logistics: "Logistik",
   rent: "Sewa",
   other: "Lain-lain",
+  tax: "Pajak",
 };
 
 const activityToneMap: Record<string, string> = {
@@ -277,6 +278,7 @@ function ModalBody({
     return acc;
   }, {});
   const catEntries = Object.entries(expenseByCat).sort((a, b) => b[1] - a[1]);
+  const expensesSorted = [...exps].sort((a, b) => b.amount - a.amount);
 
   return (
     <>
@@ -527,16 +529,20 @@ function ModalBody({
               </p>
             </div>
           </div>
-          {catEntries.length ? (
+          {expensesSorted.length ? (
             <ul className="mt-4 space-y-2">
-              {catEntries.map(([cat, amount]) => (
+              {expensesSorted.map((e) => (
                 <li
-                  key={cat}
-                  className="flex items-center justify-between text-sm"
+                  key={e.id}
+                  className="flex items-start justify-between gap-3 text-sm"
                 >
-                  <span className="capitalize text-ink-muted">{cat}</span>
-                  <span className="font-medium text-ink">
-                    {formatCurrency(amount)}
+                  <span className="text-ink-muted">
+                    <span className="font-medium text-ink">
+                      {expenseCategoryLabel[e.category] ?? e.category}
+                    </span>
+                  </span>
+                  <span className="whitespace-nowrap font-medium text-ink">
+                    {formatCurrency(e.amount)}
                   </span>
                 </li>
               ))}

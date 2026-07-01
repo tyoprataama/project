@@ -4,7 +4,7 @@ import type { Field } from "../types";
 // Portofolio NYATA: 4 blok lahan (3 sewa + 1 milik sendiri) di sekitar Kediri.
 // `bmkgCode` (adm4) dipakai untuk prakiraan cuaca. Lokasi & jenis tanah tiap
 // lahan masih placeholder (belum tercantum di laporan) -> silakan dilengkapi.
-const BETET_BMKG = "35.71.03.1006"; // Betet, Pesantren, Kota Kediri (adm4)
+const BETET_BMKG = "35.71.03.1007"; // Betet, Pesantren, Kota Kediri (adm4)
 
 export const fields: Field[] = [
   {

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { FiPlus, FiTrash2 } from "react-icons/fi";
+import { FiPlus, FiTrash2, FiEdit2 } from "react-icons/fi";
 import { PageTransition } from "../components/ui/PageTransition";
 import { PageHeader } from "../components/ui/PageHeader";
 import { TimelineCard } from "../components/cards/TimelineCard";
@@ -18,6 +18,7 @@ import {
   addActivity,
   removeActivity,
   useDataVersion,
+  updateExpense,
 } from "../data";
 import { formatCurrency, formatDate } from "../utils/format";
 import type {
@@ -59,6 +60,7 @@ export default function ActivityTimeline() {
   useDataVersion();
   const [fieldId, setFieldId] = useState<string>("all");
   const [open, setOpen] = useState(false);
+  const [editExpense, setEditExpense] = useState<Expense | null>(null);
 
   // Linimasa menggabungkan aktivitas lapangan + pengeluaran (tanggal & biaya),
   // bisa difilter per lahan atau ditampilkan semua.
@@ -70,7 +72,17 @@ export default function ActivityTimeline() {
       .filter((e) => fieldId === "all" || e.fieldId === fieldId)
       .map((e) => ({ kind: "expense" as const, date: e.date, data: e })),
   ].sort((a, b) => +new Date(b.date) - +new Date(a.date));
-
+  // Kelompokkan linimasa per musim (tahun), musim terbaru di atas.
+  const yearGroups = (() => {
+    const map = new Map<number, typeof filtered>();
+    for (const item of filtered) {
+      const y = getSeasonById(item.data.seasonId)?.year ?? 0;
+      const arr = map.get(y) ?? [];
+      arr.push(item);
+      map.set(y, arr);
+    }
+    return [...map.entries()].sort((a, b) => b[0] - a[0]);
+  })();
   return (
     <PageTransition>
       <PageHeader
@@ -105,30 +117,45 @@ export default function ActivityTimeline() {
           description="Belum ada aktivitas untuk lahan ini."
         />
       ) : (
-        <div className="rounded-xl border border-slate-200 bg-white p-5">
-          {filtered.map((item, i) =>
-            item.kind === "activity" ? (
-              <div key={`act-${item.data.id}`} className="group relative">
-                <button
-                  onClick={() => removeActivity(item.data.id)}
-                  aria-label="Hapus aktivitas"
-                  className="absolute right-0 top-2 z-10 rounded-lg p-1.5 text-slate-300 opacity-0 transition hover:bg-red-50 hover:text-red-600 group-hover:opacity-100"
-                >
-                  <FiTrash2 size={14} />
-                </button>
-                <TimelineCard
-                  activity={item.data}
-                  isLast={i === filtered.length - 1}
-                />
+        <div className="space-y-8">
+          {yearGroups.map(([year, items]) => (
+            <div key={year}>
+              <div className="mb-3 flex items-center gap-3">
+                <h3 className="font-display text-lg font-semibold text-slate-800">
+                  Musim Tanam {year}
+                </h3>
+                <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-500">
+                  {items.length} entri
+                </span>
               </div>
-            ) : (
-              <ExpenseTimelineRow
-                key={`exp-${item.data.id}`}
-                expense={item.data}
-                isLast={i === filtered.length - 1}
-              />
-            ),
-          )}
+              <div className="rounded-xl border border-slate-200 bg-white p-5">
+                {items.map((item, i) =>
+                  item.kind === "activity" ? (
+                    <div key={`act-${item.data.id}`} className="group relative">
+                      <button
+                        onClick={() => removeActivity(item.data.id)}
+                        aria-label="Hapus aktivitas"
+                        className="absolute right-0 top-2 z-10 rounded-lg p-1.5 text-slate-300 opacity-0 transition hover:bg-red-50 hover:text-red-600 group-hover:opacity-100"
+                      >
+                        <FiTrash2 size={14} />
+                      </button>
+                      <TimelineCard
+                        activity={item.data}
+                        isLast={i === items.length - 1}
+                      />
+                    </div>
+                  ) : (
+                    <ExpenseTimelineRow
+                      key={`exp-${item.data.id}`}
+                      expense={item.data}
+                      isLast={i === items.length - 1}
+                      onEdit={setEditExpense}
+                    />
+                  ),
+                )}
+              </div>
+            </div>
+          ))}
         </div>
       )}
 
@@ -138,6 +165,18 @@ export default function ActivityTimeline() {
         title="Tambah Aktivitas"
       >
         <ActivityForm onDone={() => setOpen(false)} />
+      </Modal>
+      <Modal
+        isOpen={!!editExpense}
+        onClose={() => setEditExpense(null)}
+        title="Edit Pengeluaran"
+      >
+        {editExpense && (
+          <ExpenseEditForm
+            expense={editExpense}
+            onDone={() => setEditExpense(null)}
+          />
+        )}
       </Modal>
     </PageTransition>
   );
@@ -262,9 +301,11 @@ function ActivityForm({ onDone }: { onDone: () => void }) {
 function ExpenseTimelineRow({
   expense,
   isLast,
+  onEdit,
 }: {
   expense: Expense;
   isLast?: boolean;
+  onEdit?: (e: Expense) => void;
 }) {
   return (
     <div className="relative pl-8">
@@ -272,6 +313,13 @@ function ExpenseTimelineRow({
       {!isLast && (
         <span className="absolute left-1.5 top-4 h-full w-px bg-slate-200" />
       )}
+      <button
+        onClick={() => onEdit?.(expense)}
+        aria-label="Edit pengeluaran"
+        className="absolute right-0 top-0 z-10 rounded-lg p-1.5 text-slate-400 transition hover:bg-brand-50 hover:text-brand-600"
+      >
+        <FiEdit2 size={14} />
+      </button>
       <div className="pb-6">
         <div className="flex flex-wrap items-center gap-2">
           <p className="text-xs text-slate-400">{formatDate(expense.date)}</p>
@@ -310,5 +358,93 @@ function FilterChip({
     >
       {label}
     </button>
+  );
+}
+interface ExpenseFormValues {
+  date: string;
+  category: ExpenseCategory;
+  description: string;
+}
+
+function ExpenseEditForm({
+  expense,
+  onDone,
+}: {
+  expense: Expense;
+  onDone: () => void;
+}) {
+  const { register, handleSubmit } = useForm<ExpenseFormValues>({
+    defaultValues: {
+      date: expense.date,
+      category: expense.category,
+      description: expense.description,
+    },
+  });
+  const [amount, setAmount] = useState<number>(expense.amount);
+  const [amountText, setAmountText] = useState<string>(
+    expense.amount.toLocaleString("id-ID"),
+  );
+
+  const onSubmit = (v: ExpenseFormValues) => {
+    updateExpense(expense.id, {
+      date: v.date,
+      category: v.category,
+      description: v.description,
+      amount,
+    });
+    onDone();
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
+      <div className="grid grid-cols-2 gap-3">
+        <div>
+          <label className={labelClass}>Tanggal</label>
+          <input type="date" className={inputClass} {...register("date")} />
+        </div>
+        <div>
+          <label className={labelClass}>Kategori</label>
+          <select className={inputClass} {...register("category")}>
+            {Object.entries(expenseCategoryLabel).map(([key, label]) => (
+              <option key={key} value={key}>
+                {label}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+      <div>
+        <label className={labelClass}>Deskripsi</label>
+        <textarea
+          rows={2}
+          className={inputClass}
+          {...register("description")}
+        />
+      </div>
+      <div>
+        <label className={labelClass}>Nominal (Rp)</label>
+        <div className="relative">
+          <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400">
+            Rp
+          </span>
+          <input
+            type="text"
+            inputMode="numeric"
+            placeholder="0"
+            value={amountText}
+            onChange={(e) => {
+              const digits = e.target.value.replace(/\D/g, "");
+              const num = digits ? parseInt(digits, 10) : 0;
+              setAmount(num);
+              setAmountText(num ? num.toLocaleString("id-ID") : "");
+            }}
+            className={`${inputClass} pl-9`}
+          />
+        </div>
+      </div>
+      <div className="flex justify-end gap-2 pt-1">
+        <Button type="submit">Simpan Perubahan</Button>
+      </div>
+    </form>
   );
 }
