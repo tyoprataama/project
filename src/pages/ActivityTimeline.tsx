@@ -18,6 +18,7 @@ import {
   addActivity,
   removeActivity,
   useDataVersion,
+  removeExpense,
   updateExpense,
 } from "../data";
 import { formatCurrency, formatDate } from "../utils/format";
@@ -71,8 +72,10 @@ export default function ActivityTimeline() {
     ...expenses
       .filter((e) => fieldId === "all" || e.fieldId === fieldId)
       .map((e) => ({ kind: "expense" as const, date: e.date, data: e })),
-  ].sort((a, b) => +new Date(b.date) - +new Date(a.date));
-  // Kelompokkan linimasa per musim (tahun), musim terbaru di atas.
+  ];
+
+  // Kelompokkan per musim (tahun), lalu urutkan isi TIAP grup: tanggal terbaru
+  // dulu; tiebreaker id agar posisi stabil walau data diedit.
   const yearGroups = (() => {
     const map = new Map<number, typeof filtered>();
     for (const item of filtered) {
@@ -80,6 +83,12 @@ export default function ActivityTimeline() {
       const arr = map.get(y) ?? [];
       arr.push(item);
       map.set(y, arr);
+    }
+    for (const arr of map.values()) {
+      arr.sort((a, b) => {
+        const d = +new Date(b.date) - +new Date(a.date);
+        return d !== 0 ? d : a.data.id.localeCompare(b.data.id);
+      });
     }
     return [...map.entries()].sort((a, b) => b[0] - a[0]);
   })();
@@ -442,7 +451,23 @@ function ExpenseEditForm({
           />
         </div>
       </div>
-      <div className="flex justify-end gap-2 pt-1">
+      <div className="flex items-center justify-between gap-2 pt-1">
+        <button
+          type="button"
+          onClick={() => {
+            if (
+              window.confirm(
+                "Hapus pengeluaran ini? Tindakan tidak bisa dibatalkan.",
+              )
+            ) {
+              removeExpense(expense.id);
+              onDone();
+            }
+          }}
+          className="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-red-600 ring-1 ring-red-200 transition hover:bg-red-50"
+        >
+          <FiTrash2 size={14} /> Hapus
+        </button>
         <Button type="submit">Simpan Perubahan</Button>
       </div>
     </form>

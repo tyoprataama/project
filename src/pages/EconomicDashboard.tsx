@@ -84,7 +84,7 @@ export default function EconomicDashboard() {
   // Filter kategori untuk daftar biaya (memudahkan menemukan & mengedit
   // pengeluaran kategori tertentu).
   const [expCat, setExpCat] = useState<ExpenseCategory | "all">("all");
-
+  const [expField, setExpField] = useState<string>("all");
   // Set id musim yang termasuk periode terpilih (null = seluruh waktu).
   const periodSeasonIds = useMemo(
     () =>
@@ -153,7 +153,9 @@ export default function EconomicDashboard() {
     [periodExpenses],
   );
   const filteredExpenses = recentExpenses.filter(
-    (e) => expCat === "all" || e.category === expCat,
+    (e) =>
+      (expCat === "all" || e.category === expCat) &&
+      (expField === "all" || e.fieldId === expField),
   );
 
   const targetRows = (
@@ -333,21 +335,36 @@ export default function EconomicDashboard() {
             <h3 className="font-semibold text-slate-800">
               Biaya · {periodLabel}
             </h3>
-            <select
-              value={expCat}
-              onChange={(ev) =>
-                setExpCat(ev.target.value as ExpenseCategory | "all")
-              }
-              aria-label="Filter kategori biaya"
-              className="rounded-lg border border-slate-300 px-2 py-1 text-xs text-slate-600 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
-            >
-              <option value="all">Semua kategori</option>
-              {expenseCatOptions.map((c) => (
-                <option key={c} value={c}>
-                  {categoryLabel[c]}
-                </option>
-              ))}
-            </select>
+            <div className="flex flex-wrap items-center gap-2">
+              <select
+                value={expField}
+                onChange={(ev) => setExpField(ev.target.value)}
+                aria-label="Filter lahan biaya"
+                className="rounded-lg border border-slate-300 px-2 py-1 text-xs text-slate-600 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
+              >
+                <option value="all">Semua lahan</option>
+                {fields.map((f) => (
+                  <option key={f.id} value={f.id}>
+                    {f.name}
+                  </option>
+                ))}
+              </select>
+              <select
+                value={expCat}
+                onChange={(ev) =>
+                  setExpCat(ev.target.value as ExpenseCategory | "all")
+                }
+                aria-label="Filter kategori biaya"
+                className="rounded-lg border border-slate-300 px-2 py-1 text-xs text-slate-600 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
+              >
+                <option value="all">Semua kategori</option>
+                {expenseCatOptions.map((c) => (
+                  <option key={c} value={c}>
+                    {categoryLabel[c]}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
           <ul className="max-h-96 space-y-2 overflow-y-auto pr-1">
             {filteredExpenses.map((e) => (
@@ -378,9 +395,9 @@ export default function EconomicDashboard() {
             ))}
             {filteredExpenses.length === 0 ? (
               <li className="text-sm text-slate-400">
-                {expCat === "all"
+                {expCat === "all" && expField === "all"
                   ? "Belum ada biaya."
-                  : `Tidak ada biaya kategori ${categoryLabel[expCat]}.`}
+                  : "Tidak ada biaya untuk filter ini."}
               </li>
             ) : null}
           </ul>

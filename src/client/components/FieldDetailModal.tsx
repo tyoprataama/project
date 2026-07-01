@@ -271,7 +271,10 @@ function ModalBody({
   const timeline = [
     ...acts.map((a) => ({ kind: "activity" as const, date: a.date, data: a })),
     ...exps.map((e) => ({ kind: "expense" as const, date: e.date, data: e })),
-  ].sort((a, b) => +new Date(b.date) - +new Date(a.date));
+  ].sort((a, b) => {
+  const d = +new Date(b.date) - +new Date(a.date);
+  return d !== 0 ? d : a.data.id.localeCompare(b.data.id);
+});
 
   const expenseByCat = exps.reduce<Record<string, number>>((acc, e) => {
     acc[e.category] = (acc[e.category] ?? 0) + e.amount;
