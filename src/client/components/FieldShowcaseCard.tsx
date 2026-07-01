@@ -9,6 +9,10 @@ import { WeatherBadge } from "./WeatherBadge";
 const progressStyle = (pct: number) => ({
   width: `${Math.min(100, Math.max(0, pct))}%`,
 });
+const ownershipLabel: Record<string, string> = {
+  owned: "Milik Sendiri",
+  rental: "Sewa",
+};
 
 export function FieldShowcaseCard({
   field,
@@ -70,8 +74,10 @@ export function FieldShowcaseCard({
           </dd>
         </div>
         <div className="col-span-2">
-          <dt className="text-ink-muted">Kondisi Tanah</dt>
-          <dd className="mt-0.5 font-medium text-ink">{field.soilType}</dd>
+          <dt className="text-ink-muted">Kepemilikan</dt>
+          <dd className="mt-0.5 font-medium text-ink">
+            {ownershipLabel[field.ownership]}
+          </dd>
         </div>
       </dl>
 

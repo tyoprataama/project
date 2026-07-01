@@ -532,20 +532,18 @@ function ModalBody({
               </p>
             </div>
           </div>
-          {expensesSorted.length ? (
+          {catEntries.length ? (
             <ul className="mt-4 space-y-2">
-              {expensesSorted.map((e) => (
+              {catEntries.map(([category, amount]) => (
                 <li
-                  key={e.id}
+                  key={category}
                   className="flex items-start justify-between gap-3 text-sm"
                 >
-                  <span className="text-ink-muted">
-                    <span className="font-medium text-ink">
-                      {expenseCategoryLabel[e.category] ?? e.category}
-                    </span>
+                  <span className="font-medium text-ink">
+                    {expenseCategoryLabel[category] ?? category}
                   </span>
                   <span className="whitespace-nowrap font-medium text-ink">
-                    {formatCurrency(e.amount)}
+                    {formatCurrency(amount)}
                   </span>
                 </li>
               ))}
