@@ -17,6 +17,6 @@ export const profile = {
   role: "Frontend / Full-Stack Developer",
   github: "https://github.com/tyoprataama",
   githubHandle: "tyoprataama",
-  email: "tyfaka71@gmail.com",
+  email: "tyopriyantoputra@gmail.com",
   location: "Kediri, Indonesia",
 };

@@ -125,11 +125,11 @@ export default function ClientHome() {
                 aktivitas harian hingga hasil & biaya — menjadi informasi yang
                 mudah dibaca. Studi kasus ini menggunakan komoditas tebu, namun
                 kerangka kerjanya (manajemen aset, monitoring, cost control,
-                catatan keputusan) dirancang agar mudah dialihkan ke{" "}
+                catatan keputusan) dirancang agar mudah diimplementasikan ke{" "}
                 <span className="font-medium text-ink">
-                  operasi pertambangan
-                </span>
-                . Dibuat oleh {profile.name}.
+                  sektor industri
+                </span>.
+                {/* . Dibuat oleh {profile.name}. */}
               </p>
             </Reveal>
             <Reveal delay={0.15}>

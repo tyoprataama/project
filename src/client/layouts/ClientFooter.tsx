@@ -10,11 +10,11 @@ export function ClientFooter() {
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
           <div>
             <div className="flex items-center gap-2.5">
-              <span className="grid h-9 w-9 place-items-center rounded-xl bg-tulus-700 font-display text-lg font-semibold text-white">
-                F
+              <span className="grid h-9 w-9 place-items-center rounded-xl bg-tulus-400 font-display text-lg font-semibold text-white">
+                T.
               </span>
               <span className="font-display text-lg font-medium text-ink">
-                Field Management System
+                Taniku
               </span>
             </div>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-ink-muted">
