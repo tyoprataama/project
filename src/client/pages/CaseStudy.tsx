@@ -216,7 +216,7 @@ export default function CaseStudy() {
       </section>
 
       {/* Tech stack */}
-      <section className="border-t border-slate-200 bg-slate-50/60 py-20">
+      {/* <section className="border-t border-slate-200 bg-slate-50/60 py-20">
         <Container>
           <Reveal>
             <SectionTitle
@@ -237,7 +237,7 @@ export default function CaseStudy() {
             ))}
           </div>
         </Container>
-      </section>
+      </section> */}
 
       {/* CTA */}
       <section className="border-t border-slate-200 bg-white py-20">

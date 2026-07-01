@@ -80,7 +80,7 @@ export function ClientNavbar() {
               </NavLink>
             ))}
             <div className="mt-3 px-1">
-              <SeasonSelector compact />
+              <SeasonSelector compact onSelect={() => setOpen(false)} />
             </div>
           </Container>
         </div>

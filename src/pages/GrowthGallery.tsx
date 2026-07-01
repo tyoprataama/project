@@ -82,7 +82,10 @@ export default function GrowthGallery() {
         {items.map((item) => (
           <div key={item.id} className="group relative">
             <button
-              onClick={() => removeGalleryItem(item.id)}
+              onClick={() => {
+                if (window.confirm("Hapus foto ini? Tindakan ini tidak bisa dibatalkan.")) {
+                removeGalleryItem(item.id);}}
+              }
               aria-label="Hapus foto"
               className="absolute right-2 top-2 z-10 rounded-lg bg-white/90 p-1.5 text-slate-400 opacity-0 shadow-sm transition hover:text-red-600 group-hover:opacity-100"
             >
@@ -289,7 +292,7 @@ function Chip({
       onClick={onClick}
       className={`rounded-full px-3 py-1.5 text-sm font-medium transition ${
         active
-          ? "bg-brand-600 text-white"
+          ? "bg-tulus-600 text-white"
           : "bg-white text-slate-600 ring-1 ring-slate-200 hover:bg-slate-50"
       }`}
     >

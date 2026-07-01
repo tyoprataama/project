@@ -22,16 +22,16 @@ export function Navbar({ onMenuClick }: { onMenuClick: () => void }) {
           <FiMenu size={20} />
         </button>
         <Link to="/admin" className="flex items-center gap-2.5">
-          <span className="grid h-9 w-9 place-items-center rounded-xl bg-tulus-700 font-display text-lg font-semibold text-white">
-            F
+          <span className="grid h-9 w-9 place-items-center rounded-xl bg-tulus-500 font-display text-lg font-semibold text-white">
+            T.
           </span>
           <span className="leading-tight">
             <span className="block text-sm font-semibold text-ink">
-              Field Management
+              Admin
             </span>
-            <span className="block text-[11px] uppercase tracking-[0.16em] text-ink-muted">
+            {/* <span className="block text-[11px] uppercase tracking-[0.16em] text-ink-muted">
               Dashboard Admin
-            </span>
+            </span> */}
           </span>
         </Link>
       </div>

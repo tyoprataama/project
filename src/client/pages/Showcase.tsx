@@ -157,12 +157,12 @@ export default function Showcase() {
           <Reveal>
             <SectionTitle
               eyebrow="All-time"
-              title="Pendapatan, biaya, dan margin all-time"
-              description="Akumulasi seluruh musim yang tercatat (2023–2026), termasuk musim 2026 yang masih berjalan/belum panen — biaya investasinya sudah masuk meski pendapatannya belum."
+              title="Pendapatan, biaya, margin, dan yield all-time"
+              description="Akumulasi seluruh musim yang tercatat mulai tahun 2023, termasuk musim yang masih berjalan/belum panen — biaya investasinya sudah masuk meski pendapatannya belum."
             />
           </Reveal>
           <Reveal delay={0.1}>
-            <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               <div className="rounded-2xl border border-slate-200 bg-white p-6">
                 <p className="text-sm font-medium text-ink-muted">
                   Total Pendapatan
@@ -173,7 +173,7 @@ export default function Showcase() {
               </div>
               <div className="rounded-2xl border border-slate-200 bg-white p-6">
                 <p className="text-sm font-medium text-ink-muted">
-                  Total Pengeluaran
+                  Total Modal
                 </p>
                 <p className="mt-1 font-display text-2xl font-medium text-ink">
                   {formatCompactCurrency(allTime.expenses)}
@@ -193,6 +193,14 @@ export default function Showcase() {
                 </p>
                 <p className="mt-1 font-display text-2xl font-medium text-ink">
                   {allTime.margin}%
+                </p>
+              </div>
+              <div className="rounded-2xl border border-slate-200 bg-white p-6">
+                <p className="text-sm font-medium text-ink-muted">
+                  Yield All-time
+                </p>
+                <p className="mt-1 font-display text-2xl font-medium text-ink">
+                  {allTime.yieldPct}%
                 </p>
               </div>
             </div>

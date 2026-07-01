@@ -13,7 +13,7 @@ export const clientNav: ClientNavItem[] = [
 
 // Identitas pemilik portfolio (dipakai di navbar, footer, kontak)
 export const profile = {
-  name: "Tyo Pratama",
+  name: "Tyo Putra",
   role: "Frontend / Full-Stack Developer",
   github: "https://github.com/tyoprataama",
   githubHandle: "tyoprataama",

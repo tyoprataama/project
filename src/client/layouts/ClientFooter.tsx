@@ -10,7 +10,7 @@ export function ClientFooter() {
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
           <div>
             <div className="flex items-center gap-2.5">
-              <span className="grid h-9 w-9 place-items-center rounded-xl bg-tulus-400 font-display text-lg font-semibold text-white">
+              <span className="grid h-9 w-9 place-items-center rounded-xl bg-tulus-500 font-display text-lg font-semibold text-white">
                 T.
               </span>
               <span className="font-display text-lg font-medium text-ink">
@@ -48,14 +48,14 @@ export function ClientFooter() {
             </h3>
             <ul className="mt-4 space-y-2.5 text-sm text-ink-soft">
               <li>
-                <a
+                {/* <a
                   href={profile.github}
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex items-center gap-2 transition-colors hover:text-tulus-700"
                 >
                   <FiGithub size={15} /> {profile.githubHandle}
-                </a>
+                </a> */}
               </li>
               <li>
                 <a
@@ -77,7 +77,7 @@ export function ClientFooter() {
             © {new Date().getFullYear()} {profile.name}. Dibuat dengan React,
             TypeScript & Tailwind CSS.
           </p>
-          <p>Data ditampilkan dari mock dataset internal.</p>
+          {/* <p>Data ditampilkan dari mock dataset internal.</p> */}
         </div>
       </Container>
     </footer>

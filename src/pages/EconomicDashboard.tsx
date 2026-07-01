@@ -111,6 +111,7 @@ export default function EconomicDashboard() {
   const exp = periodExpenses.reduce((s, e) => s + e.amount, 0);
   const profit = rev - exp;
   const margin = rev > 0 ? Math.round((profit / rev) * 100) : 0;
+  const yieldPct = exp > 0 ? Math.round((profit / exp) * 100) : 0;
 
   const byCategory: Record<string, number> = {};
   for (const e of periodExpenses)
@@ -201,7 +202,7 @@ export default function EconomicDashboard() {
         }
       />
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <StatisticCard
           label="Laba Kotor"
           value={formatCompactCurrency(rev)}
@@ -225,6 +226,12 @@ export default function EconomicDashboard() {
           value={`${formatNumber(margin)}%`}
           icon={FiPercent}
           accentClass="bg-amber-50 text-amber-600"
+        />
+        <StatisticCard
+          label="Yield %"
+          value={`${formatNumber(yieldPct)}%`}
+          icon={FiPercent}
+          accentClass="bg-violet-50 text-violet-600"
         />
       </div>
 

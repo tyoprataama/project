@@ -97,6 +97,11 @@ export function kpiSummary(year: number): KpiItem[] {
   // Margin bersih dalam Rupiah (pendapatan - pengeluaran) pada tahun tertentu.
   const marginRp = (y: number) =>
     totalRevenueByYear(y) - totalExpensesByYear(y);
+  // Yield finansial: laba bersih dibagi modal (pengeluaran) tahun tsb.
+  const yieldPct = (y: number) => {
+  const exp = totalExpensesByYear(y);
+  return exp > 0 ? (marginRp(y) / exp) * 100 : 0;
+};
 
   return [
     {
@@ -118,16 +123,6 @@ export function kpiSummary(year: number): KpiItem[] {
       series: years.map((y) => totalExpensesByYear(y)),
     },
     {
-      key: "margin",
-      label: "Margin Bersih",
-      unit: "%",
-      format: "pct",
-      current: round(marginByYear(year)),
-      benchmark: round(marginByYear(prev)),
-      benchmarkLabel: "tahun sebelumnya",
-      series: years.map((y) => round(marginByYear(y))),
-    },
-    {
       key: "marginRp",
       label: "Margin Bersih (Rp)",
       format: "rp",
@@ -138,7 +133,7 @@ export function kpiSummary(year: number): KpiItem[] {
     },
     {
       key: "marginRpMonthly",
-      label: "Laba Bersih / Bulan",
+      label: "Estimasi Laba Bersih / Bulan",
       format: "rp",
       current: round(marginRp(year) / 12),
       benchmark: round(marginRp(prev) / 12),
@@ -155,6 +150,26 @@ export function kpiSummary(year: number): KpiItem[] {
       benchmarkLabel: "tahun sebelumnya",
       series: years.map((y) => totalAreaM2(y)),
     },
+    {
+      key: "margin",
+      label: "Margin Bersih",
+      unit: "%",
+      format: "pct",
+      current: round(marginByYear(year)),
+      benchmark: round(marginByYear(prev)),
+      benchmarkLabel: "tahun sebelumnya",
+      series: years.map((y) => round(marginByYear(y))),
+    },
+    {
+    key: "yield",
+    label: "Yield",
+    unit: "%",
+    format: "pct",
+    current: round(yieldPct(year)),
+    benchmark: round(yieldPct(prev)),
+    benchmarkLabel: "tahun ini",
+    series: years.map((y) => round(yieldPct(y))),
+  },
   ];
 }
 
@@ -164,6 +179,7 @@ export type AllTimeSummary = {
   expenses: number;
   profit: number;
   margin: number;
+  yieldPct: number;
 };
 
 export function allTimeSummary(): AllTimeSummary {
@@ -171,11 +187,12 @@ export function allTimeSummary(): AllTimeSummary {
   const expenses = totalExpenses();
   const profit = revenue - expenses;
   return {
-    revenue,
-    expenses,
-    profit,
-    margin: revenue > 0 ? round((profit / revenue) * 100) : 0,
-  };
+  revenue,
+  expenses,
+  profit,
+  margin: revenue > 0 ? round((profit / revenue) * 100) : 0,
+  yieldPct: expenses > 0 ? round((profit / expenses) * 100) : 0,
+};
 }
 
 // Tren per tahun untuk grafik garis all-time: pendapatan, pengeluaran, laba

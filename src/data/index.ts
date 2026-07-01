@@ -645,8 +645,10 @@ export async function deleteGalleryImage(imageUrl: string): Promise<void> {
   if (idx === -1) return; // bukan file milik bucket kita
   const path = decodeURIComponent(imageUrl.slice(idx + marker.length));
   if (!path) return;
-  const { error } = await supabase.storage.from("fms-gallery").remove([path]);
+  const { data, error } = await supabase.storage.from("fms-gallery").remove([path]);
   if (error) console.error("[Supabase] gagal hapus file storage:", error);
+  else if (!data || data.length === 0)
+  console.warn("[Supabase] file TIDAK terhapus — cek policy DELETE / path:", path);
 }
 export function addGalleryItem(input: Omit<GalleryItem, "id">) {
   const rec: GalleryItem = { ...input, id: rid("G") };

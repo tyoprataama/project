@@ -3,7 +3,13 @@ import { useSeason } from "../../context/SeasonContext";
 
 // Pemilih musim tanam global untuk situs publik.
 // Mengubah tahun otomatis memperbarui seluruh section yang memakai useSeason().
-export function SeasonSelector({ compact = false }: { compact?: boolean }) {
+export function SeasonSelector({
+  compact = false,
+  onSelect,
+}: {
+  compact?: boolean;
+  onSelect?: () => void;
+}) {
   const { year, setYear, years } = useSeason();
 
   return (
@@ -16,7 +22,10 @@ export function SeasonSelector({ compact = false }: { compact?: boolean }) {
       <span className="text-xs font-medium text-ink-muted">Musim</span>
       <select
         value={year}
-        onChange={(e) => setYear(Number(e.target.value))}
+        onChange={(e) => {
+          setYear(Number(e.target.value));
+          onSelect?.();
+        }}
         aria-label="Pilih musim tanam"
         className="cursor-pointer bg-transparent pr-1 text-sm font-semibold text-tulus-700 outline-none"
       >
