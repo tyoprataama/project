@@ -167,7 +167,7 @@ export function kpiSummary(year: number): KpiItem[] {
     format: "pct",
     current: round(yieldPct(year)),
     benchmark: round(yieldPct(prev)),
-    benchmarkLabel: "tahun ini",
+    benchmarkLabel: "tahun sebelumnya",
     series: years.map((y) => round(yieldPct(y))),
   },
   ];

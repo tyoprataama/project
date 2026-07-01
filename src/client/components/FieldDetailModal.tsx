@@ -27,6 +27,7 @@ import {
   totalRevenueBySeason,
   haFromM2,
   getFieldById,
+  getSeasonsByField,
   getSeasonById,
 } from "../../data";
 import {
@@ -272,9 +273,9 @@ function ModalBody({
     ...acts.map((a) => ({ kind: "activity" as const, date: a.date, data: a })),
     ...exps.map((e) => ({ kind: "expense" as const, date: e.date, data: e })),
   ].sort((a, b) => {
-  const d = +new Date(b.date) - +new Date(a.date);
-  return d !== 0 ? d : a.data.id.localeCompare(b.data.id);
-});
+    const d = +new Date(b.date) - +new Date(a.date);
+    return d !== 0 ? d : a.data.id.localeCompare(b.data.id);
+  });
 
   const expenseByCat = exps.reduce<Record<string, number>>((acc, e) => {
     acc[e.category] = (acc[e.category] ?? 0) + e.amount;
@@ -282,6 +283,23 @@ function ModalBody({
   }, {});
   const catEntries = Object.entries(expenseByCat).sort((a, b) => b[1] - a[1]);
   const expensesSorted = [...exps].sort((a, b) => b.amount - a.amount);
+  // Perbandingan biaya per kategori vs MUSIM SEBELUMNYA di lahan yang SAMA.
+  const prevSeason = getSeasonsByField(season.fieldId)
+    .filter((s) => +new Date(s.plantingDate) < +new Date(season.plantingDate))
+    .sort((a, b) => +new Date(b.plantingDate) - +new Date(a.plantingDate))[0];
+  const prevExpenseByCat: Record<string, number> = {};
+  if (prevSeason) {
+    for (const e of getExpensesBySeason(prevSeason.id)) {
+      prevExpenseByCat[e.category] =
+        (prevExpenseByCat[e.category] ?? 0) + e.amount;
+    }
+  }
+  const catDelta = (category: string, amount: number) => {
+    if (!prevSeason) return null; // lahan ini belum punya musim sebelumnya
+    const prev = prevExpenseByCat[category];
+    if (prev === undefined || prev === 0) return { isNew: true, pct: 0 };
+    return { isNew: false, pct: Math.round(((amount - prev) / prev) * 100) };
+  };
 
   return (
     <>
@@ -534,19 +552,42 @@ function ModalBody({
           </div>
           {catEntries.length ? (
             <ul className="mt-4 space-y-2">
-              {catEntries.map(([category, amount]) => (
-                <li
-                  key={category}
-                  className="flex items-start justify-between gap-3 text-sm"
-                >
-                  <span className="font-medium text-ink">
-                    {expenseCategoryLabel[category] ?? category}
-                  </span>
-                  <span className="whitespace-nowrap font-medium text-ink">
-                    {formatCurrency(amount)}
-                  </span>
-                </li>
-              ))}
+              {catEntries.map(([category, amount]) => {
+                const d = catDelta(category, amount);
+                return (
+                  <li
+                    key={category}
+                    className="flex items-start justify-between gap-3 text-sm"
+                  >
+                    <span className="flex items-center gap-1.5">
+                      <span className="font-medium text-ink">
+                        {expenseCategoryLabel[category] ?? category}
+                      </span>
+                      {d && !d.isNew && d.pct !== 0 && (
+                        <span
+                          className={`inline-flex items-center gap-0.5 text-[11px] font-medium ${
+                            d.pct > 0 ? "text-red-600" : "text-emerald-600"
+                          }`}
+                          title={`Dibanding ${prevSeason?.label ?? "musim sebelumnya"}`}
+                        >
+                          {d.pct > 0 ? "▲" : "▼"} {Math.abs(d.pct)}%
+                        </span>
+                      )}
+                      {d?.isNew && (
+                        <span
+                          className="text-[11px] font-medium text-slate-400"
+                          title="Tidak ada di musim sebelumnya"
+                        >
+                          baru
+                        </span>
+                      )}
+                    </span>
+                    <span className="whitespace-nowrap font-medium text-ink">
+                      {formatCurrency(amount)}
+                    </span>
+                  </li>
+                );
+              })}
             </ul>
           ) : (
             <p className="mt-4 text-sm text-ink-muted">
