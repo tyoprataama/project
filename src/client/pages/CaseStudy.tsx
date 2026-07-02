@@ -1,24 +1,66 @@
 import { Link } from "react-router-dom";
 import {
-  FiArrowUpRight,
+  SiReact,
+  SiTypescript,
+  SiVite,
+  SiReactrouter,
+  SiTailwindcss,
+  SiFramer,
+  SiReacthookform,
+  SiClaude,
+  SiSupabase
+} from "react-icons/si";
+import {
   FiTarget,
+  FiCompass,
   FiCheckCircle,
   FiLayers,
-  FiCompass,
+  FiArrowUpRight,
 } from "react-icons/fi";
 import { Container } from "../components/Container";
 import { Reveal } from "../components/Reveal";
 import { SectionTitle } from "../components/SectionTitle";
 
 const techStack = [
-  { name: "React 18", role: "UI library berbasis komponen" },
-  { name: "TypeScript", role: "Keamanan tipe di seluruh kode" },
-  { name: "Vite", role: "Build tool & dev server cepat" },
-  { name: "React Router", role: "Routing client-side & nested route" },
-  { name: "Tailwind CSS", role: "Desain sistem utility-first" },
-  { name: "Framer Motion", role: "Animasi & micro-interaction" },
-  { name: "React Hook Form", role: "Form input data yang ringan" },
-  { name: "React Icons", role: "Set ikon konsisten" },
+  { name: "React 18", role: "UI library berbasis komponen", icon: SiReact },
+  {
+    name: "TypeScript",
+    role: "Keamanan tipe di seluruh kode",
+    icon: SiTypescript,
+  },
+  { name: "Vite", role: "Build tool & dev server cepat", icon: SiVite },
+  {
+    name: "React Router",
+    role: "Routing client-side & nested route",
+    icon: SiReactrouter,
+  },
+  {
+    name: "Tailwind CSS",
+    role: "Desain sistem utility-first",
+    icon: SiTailwindcss,
+  },
+  {
+    name: "Framer Motion",
+    role: "Animasi & micro-interaction",
+    icon: SiFramer,
+  },
+  {
+    name: "React Hook Form",
+    role: "Form input data yang ringan",
+    icon: SiReacthookform,
+  },
+  { name: "React Icons", 
+    role: "Set ikon konsisten", 
+    icon: FiLayers 
+  },
+  { name: "Claude Opus 4.8", 
+    role: "Asisten vibe coding", 
+    icon: SiClaude 
+  },
+  { name: "Supabase", 
+    role: "Project database", 
+    icon: SiSupabase 
+  },
 ];
 
 const features = [
@@ -84,16 +126,15 @@ export default function CaseStudy() {
           </Reveal>
           <Reveal delay={0.05}>
             <h1 className="mt-5 max-w-3xl font-display text-4xl font-medium leading-[1.1] text-ink sm:text-5xl">
-              Taniku. — dari data lapangan menjadi keputusan
+              Taniku, dari data lapangan menjadi keputusan
             </h1>
           </Reveal>
           <Reveal delay={0.1}>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted">
               Aplikasi web yang mendokumentasikan dan memvisualisasikan operasi
-              lapangan berbasis aset. Studinya memakai konteks pertanian,
-              namun polanya sengaja dirancang transferable ke industri padat
-              aset khususnya pertambangan, bidang tempat saya ingin meniti
-              karier.
+              lapangan berbasis aset. Studinya memakai konteks pertanian, namun
+              polanya sengaja dirancang transferable ke industri padat aset
+              khususnya pertambangan, bidang tempat saya ingin meniti karier.
             </p>
           </Reveal>
           {/* <Reveal delay={0.15}>
@@ -187,13 +228,13 @@ export default function CaseStudy() {
             <SectionTitle
               eyebrow="Relevansi Pertambangan"
               title="Pola yang sama, konteks tambang"
-              description="Tujuan karier saya adalah berkontribusi di industri pertambangan. Sistem ini sengaja dibangun dengan kerangka manajemen aset & operasi yang langsung relevan dengan kebutuhan operasional tambang — cukup mengganti entitas datanya."
+              description="Tujuan karier saya adalah berkontribusi di industri pertambangan. Sistem ini sengaja dibangun dengan kerangka manajemen aset & operasi yang langsung relevan dengan kebutuhan operasional tambang, cukup mengganti entitas datanya."
             />
           </Reveal>
           <div className="mt-12 overflow-hidden rounded-2xl border border-slate-200">
             <div className="grid grid-cols-2 bg-tulus-900 text-sm font-medium text-white">
               <div className="px-5 py-3.5">Konteks Pertanian</div>
-              <div className="px-5 py-3.5">Padanan di Pertambangan</div>
+              <div className="px-5 py-3.5">Konteks Pertambangan</div>
             </div>
             {miningParallels.map((row, i) => (
               <div
@@ -215,28 +256,31 @@ export default function CaseStudy() {
       </section>
 
       {/* Tech stack */}
-      {/* <section className="border-t border-slate-200 bg-slate-50/60 py-20">
+      <section className="border-t border-slate-200 bg-slate-50/60 py-20">
         <Container>
           <Reveal>
             <SectionTitle
               eyebrow="Teknologi"
               title="Tech stack"
-              description="Dipilih agar ringan, modern, dan mudah dikembangkan ke arah full-stack."
+              description="Dipilih agar ringan, modern, dan mudah dikembangkan."
             />
           </Reveal>
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {techStack.map((t, i) => (
-              <Reveal key={t.name} delay={(i % 4) * 0.05}>
-                <div className="h-full rounded-2xl border border-slate-200 bg-white p-5">
-                  <FiLayers size={18} className="text-tulus-600" />
-                  <p className="mt-3 font-medium text-ink">{t.name}</p>
-                  <p className="mt-1 text-sm text-ink-muted">{t.role}</p>
-                </div>
-              </Reveal>
-            ))}
+            {techStack.map((t, i) => {
+              const Icon = t.icon;
+              return (
+                <Reveal key={t.name} delay={(i % 4) * 0.05}>
+                  <div className="h-full rounded-2xl border border-slate-200 bg-white p-5">
+                    <Icon size={18} className="text-tulus-600" />
+                    <p className="mt-3 font-medium text-ink">{t.name}</p>
+                    <p className="mt-1 text-sm text-ink-muted">{t.role}</p>
+                  </div>
+                </Reveal>
+              );
+            })}
           </div>
         </Container>
-      </section> */}
+      </section>
 
       {/* CTA */}
       <section className="border-t border-slate-200 bg-white py-20">

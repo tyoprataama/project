@@ -74,8 +74,8 @@ export function ClientFooter() {
 
         <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-slate-200 pt-6 text-xs text-ink-muted sm:flex-row">
           <p>
-            © {new Date().getFullYear()} {profile.name}. Dibuat dengan React,
-            TypeScript & Tailwind CSS.
+            © {new Date().getFullYear()} {profile.name}. Dibuat dengan 💙 Vite,
+            TypeScript, Tailwind CSS & Claude.
           </p>
           {/* <p>Data ditampilkan dari mock dataset internal.</p> */}
         </div>

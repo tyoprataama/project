@@ -27,7 +27,7 @@ const capabilities = [
     no: "01",
     icon: FiMap,
     title: "Pemetaan & Status Aset",
-    text: "Setiap lahan terdokumentasi lengkap: lokasi, komoditas, luas, dan status operasional secara real-time — pendekatan yang sama dipakai untuk memantau status blok/site tambang.",
+    text: "Setiap lahan terdokumentasi lengkap: lokasi, komoditas, luas, dan status operasional secara real-time dengan pendekatan yang sama dipakai untuk memantau status blok/site tambang.",
   },
   {
     no: "02",
@@ -39,7 +39,7 @@ const capabilities = [
     no: "03",
     icon: FiPieChart,
     title: "Analisis Ekonomi & Biaya",
-    text: "Biaya operasional dan pendapatan dirangkum menjadi margin yang jelas — kerangka cost control yang relevan untuk efisiensi operasi tambang.",
+    text: "Biaya operasional dan pendapatan dirangkum menjadi margin yang jelas dengan kerangka cost control yang relevan untuk efisiensi operasi tambang.",
   },
 ];
 
@@ -121,9 +121,9 @@ export default function ClientHome() {
             </Reveal>
             <Reveal delay={0.1}>
               <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-muted">
-                Field Management System merangkum operasi lapangan — dari
-                aktivitas harian hingga hasil & biaya — menjadi informasi yang
-                mudah dibaca. Studi kasus ini menggunakan komoditas tebu, namun
+                Taniku, platform Field Management System yang merangkum operasi lapangan dari
+                aktivitas harian hingga hasil & biaya menjadi informasi yang
+                mudah dibaca. Studi kasus ini menggunakan komoditas pertanian, namun
                 kerangka kerjanya (manajemen aset, monitoring, cost control,
                 catatan keputusan) dirancang agar mudah diimplementasikan ke{" "}
                 <span className="font-medium text-ink">
@@ -227,7 +227,7 @@ export default function ClientHome() {
             <SectionTitle
               eyebrow="Apa yang ditampilkan"
               title="Tiga lapisan informasi untuk keputusan yang lebih baik"
-              description="Data mentah dari lapangan diolah menjadi tampilan ringkas — kerangka yang sama dapat dipakai untuk memantau aset, produksi, dan biaya di sektor pertambangan."
+              description="Data mentah dari lapangan diolah menjadi tampilan ringkas dan kerangka yang sama dapat dipakai untuk memantau aset, produksi, dan biaya di sektor pertambangan."
             />
           </Reveal>
           <div className="mt-12 grid gap-6 md:grid-cols-3">
@@ -298,7 +298,7 @@ export default function ClientHome() {
               </h2>
               <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-tulus-100">
                 Jelajahi showcase data lengkap dengan ringkasan ekonomi,
-                monitoring tanaman, dan dokumentasi — atau baca latar belakang
+                monitoring tanaman, dan dokumentasi atau baca latar belakang
                 teknis dan relevansi pertambangan di studi kasus.
               </p>
               <div className="mt-8 flex flex-wrap justify-center gap-3">
