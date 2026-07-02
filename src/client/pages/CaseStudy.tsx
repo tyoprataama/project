@@ -22,7 +22,6 @@ const techStack = [
 ];
 
 const features = [
-  "Peta lahan/lokasi interaktif dengan detail per titik",
   "Timeline aktivitas operasional yang dapat difilter",
   "Monitoring kondisi & risiko di lapangan secara berkala",
   "Dashboard ekonomi: biaya, pendapatan, dan margin",
@@ -36,7 +35,7 @@ const process = [
   {
     icon: FiTarget,
     title: "Masalah",
-    text: "Operasi lapangan menghasilkan banyak data harian — aktivitas, biaya, kondisi aset — namun sering tercecer dan sulit dibaca untuk mengambil keputusan cepat. Tantangan ini sama persis di kebun maupun di area tambang.",
+    text: "Operasi lapangan menghasilkan banyak data harian aktivitas, biaya, kondisi aset, namun sering tercecer dan sulit dibaca untuk mengambil keputusan cepat. Tantangan ini sama persis di kebun maupun di area industri.",
   },
   {
     icon: FiCompass,
@@ -46,7 +45,7 @@ const process = [
   {
     icon: FiCheckCircle,
     title: "Hasil",
-    text: "Antarmuka konsisten dan mudah dipahami, dengan komponen reusable dan arsitektur yang siap dikembangkan ke backend nyata (Supabase) maupun diadaptasi ke konteks industri lain.",
+    text: "Antarmuka konsisten dan mudah dipahami, dengan komponen reusable, dapat diadaptasi ke konteks industri lain.",
   },
 ];
 
@@ -85,19 +84,19 @@ export default function CaseStudy() {
           </Reveal>
           <Reveal delay={0.05}>
             <h1 className="mt-5 max-w-3xl font-display text-4xl font-medium leading-[1.1] text-ink sm:text-5xl">
-              Field Management System — dari data lapangan menjadi keputusan
+              Taniku. — dari data lapangan menjadi keputusan
             </h1>
           </Reveal>
           <Reveal delay={0.1}>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted">
               Aplikasi web yang mendokumentasikan dan memvisualisasikan operasi
-              lapangan berbasis aset. Studinya memakai konteks pertanian tebu,
+              lapangan berbasis aset. Studinya memakai konteks pertanian,
               namun polanya sengaja dirancang transferable ke industri padat
-              aset — khususnya pertambangan, bidang tempat saya ingin meniti
+              aset khususnya pertambangan, bidang tempat saya ingin meniti
               karier.
             </p>
           </Reveal>
-          <Reveal delay={0.15}>
+          {/* <Reveal delay={0.15}>
             <dl className="mt-10 grid max-w-2xl grid-cols-2 gap-6 border-t border-slate-200 pt-8 sm:grid-cols-4">
               <div>
                 <dt className="text-xs uppercase tracking-wide text-ink-muted">
@@ -124,7 +123,7 @@ export default function CaseStudy() {
                 <dd className="mt-1 font-medium text-ink">Frontend MVP</dd>
               </div>
             </dl>
-          </Reveal>
+          </Reveal> */}
         </Container>
       </section>
 
@@ -193,7 +192,7 @@ export default function CaseStudy() {
           </Reveal>
           <div className="mt-12 overflow-hidden rounded-2xl border border-slate-200">
             <div className="grid grid-cols-2 bg-tulus-900 text-sm font-medium text-white">
-              <div className="px-5 py-3.5">Konteks Pertanian (demo)</div>
+              <div className="px-5 py-3.5">Konteks Pertanian</div>
               <div className="px-5 py-3.5">Padanan di Pertambangan</div>
             </div>
             {miningParallels.map((row, i) => (
@@ -247,8 +246,8 @@ export default function CaseStudy() {
               <div>
                 <SectionTitle
                   eyebrow="Langkah berikutnya"
-                  title="Siap diadaptasi untuk operasi tambang"
-                  description="Kerangka data, halaman, dan komponen pada sistem ini dapat dikonfigurasi ulang menjadi dashboard operasional tambang dengan usaha minimal."
+                  title="Siap diadaptasi untuk sektor industri lain"
+                  description="Kerangka data, halaman, dan komponen pada sistem ini dapat dikonfigurasi ulang menjadi dashboard operasional industri yang lain."
                 />
               </div>
               <div className="flex flex-col gap-3">

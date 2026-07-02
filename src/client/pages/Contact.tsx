@@ -12,12 +12,6 @@ const links = [
     href: `mailto:${profile.email}`,
   },
   {
-    icon: FiGithub,
-    label: "GitHub",
-    value: profile.githubHandle,
-    href: profile.github,
-  },
-  {
     icon: FiMapPin,
     label: "Lokasi",
     value: profile.location,
@@ -46,12 +40,9 @@ export default function Contact() {
             </Reveal>
             <Reveal delay={0.1}>
               <p className="mt-6 max-w-md text-lg leading-relaxed text-ink-muted">
-                Saya {profile.name}, {profile.role}. Project ini bagian dari
+                Saya Tyo Pratama Priyanto Putra, seorang lulusan ekonomi dan mempunyai pengalaman di bidang software dan data. Project ini bagian dari
                 portfolio saya. Target karier saya adalah berkontribusi di
-                industri pertambangan — membangun perangkat digital yang
-                merapikan data operasional lapangan. Jika Anda dari tim
-                rekrutmen tambang dan tertarik berdiskusi, saya senang
-                dihubungi.
+                industri pertambangan dan mengimplementasikan pengalaman saya disana. Hubungi Saya jika Anda tertarik untuk berdiskusi lebih lanjut.
               </p>
             </Reveal>
             <Reveal delay={0.12}>
@@ -68,14 +59,14 @@ export default function Contact() {
                 >
                   Kirim Email <FiArrowUpRight size={16} />
                 </a>
-                <a
+                {/* <a
                   href={profile.github}
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex items-center gap-2 rounded-full border border-slate-300 px-6 py-3 text-sm font-medium text-ink transition-colors hover:border-tulus-300 hover:text-tulus-700"
                 >
                   <FiGithub size={16} /> Lihat GitHub
-                </a>
+                </a> */}
               </div>
             </Reveal>
           </div>

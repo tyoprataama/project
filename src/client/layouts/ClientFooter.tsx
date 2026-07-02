@@ -19,7 +19,7 @@ export function ClientFooter() {
             </div>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-ink-muted">
               Studi kasus portfolio: sistem manajemen operasi lapangan berbasis
-              data — dirancang untuk pengambilan keputusan yang jelas dan
+              data, dirancang untuk pengambilan keputusan yang jelas dan
               terukur.
             </p>
           </div>

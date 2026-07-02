@@ -54,7 +54,7 @@ export default function Showcase() {
             <SectionTitle
               eyebrow="Showcase Data"
               title="Dashboard kinerja lapangan"
-              description="Empat indikator utama mengikuti musim yang dipilih dan dibandingkan dengan tahun sebelumnya (naik/turun dalam persen). Pola dashboard yang sama dapat diterapkan untuk data operasional tambang — pendapatan, struktur biaya, margin, dan jumlah blok yang dikelola."
+              description="Beberapa indikator utama mengikuti musim yang dipilih dan dibandingkan dengan tahun sebelumnya. Data yang ditampilkan dapat menjadi insight untuk pengambilan keputusan kedepannya."
             />
           </Reveal>
           <div className="mt-10 border-t border-slate-200 pt-8">
@@ -122,7 +122,7 @@ export default function Showcase() {
             <SectionTitle
               eyebrow="Profitabilitas"
               title="Pendapatan, biaya, dan margin per lahan"
-              description="Bar menunjukkan pendapatan vs biaya tiap lahan; garis menunjukkan margin. Garis putus-putus adalah margin rata-rata all-time sebagai acuan."
+              description="Bar menunjukkan pendapatan vs biaya tiap lahan; garis menunjukkan margin sebagai acuan."
             />
           </Reveal>
           <Reveal delay={0.1}>

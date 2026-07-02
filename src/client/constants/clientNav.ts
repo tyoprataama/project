@@ -15,8 +15,8 @@ export const clientNav: ClientNavItem[] = [
 export const profile = {
   name: "Tyo Putra",
   role: "Frontend / Full-Stack Developer",
-  github: "https://github.com/tyoprataama",
-  githubHandle: "tyoprataama",
+  github: "https://github.com/",
+  githubHandle: "-",
   email: "tyopriyantoputra@gmail.com",
   location: "Kediri, Indonesia",
 };
