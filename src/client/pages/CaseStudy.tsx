@@ -53,7 +53,7 @@ const techStack = [
     role: "Set ikon konsisten", 
     icon: FiLayers 
   },
-  { name: "Claude Opus 4.8", 
+  { name: "Claude Opus", 
     role: "Asisten vibe coding", 
     icon: SiClaude 
   },
