@@ -31,14 +31,14 @@ export function FieldShowcaseCard({
     <button
       type="button"
       onClick={onSelect}
-      className="group flex h-full w-full flex-col rounded-2xl border border-slate-200 bg-white p-6 text-left transition-all duration-300 hover:-translate-y-1 hover:border-tulus-200 hover:shadow-[0_22px_45px_-28px_rgba(16,35,66,0.5)] focus:outline-none focus-visible:ring-2 focus-visible:ring-tulus-600/40"
+      className="group flex h-full w-full flex-col rounded-2xl border border-slate-200 bg-white p-6 text-left transition-all duration-300 hover:-translate-y-1 hover:border-tulus-200 hover:shadow-[0_22px_45px_-28px_rgba(16,35,66,0.5)] focus:outline-none focus-visible:ring-2 focus-visible:ring-tulus-600/40 dark:border-white/10 dark:bg-[#202020] dark:hover:border-[#5E9FE8]/40 dark:hover:shadow-[0_22px_45px_-24px_rgba(0,0,0,0.8)]"
     >
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <h3 className="font-display text-xl font-medium text-ink">
+          <h3 className="font-display text-xl font-medium text-ink dark:text-white">
             {field.name}
           </h3>
-          <p className="mt-1 inline-flex items-center gap-1.5 text-sm text-ink-muted">
+          <p className="mt-1 inline-flex items-center gap-1.5 text-sm text-ink-muted dark:text-white/60">
             <FiMapPin size={13} /> {field.location}
           </p>
         </div>
@@ -64,45 +64,51 @@ export function FieldShowcaseCard({
 
       <dl className="mt-5 grid grid-cols-2 gap-4 text-sm">
         <div>
-          <dt className="text-ink-muted">Komoditas</dt>
-          <dd className="mt-0.5 font-medium text-ink">{season.crop}</dd>
+          <dt className="text-ink-muted dark:text-white/50">Komoditas</dt>
+          <dd className="mt-0.5 font-medium text-ink dark:text-white">
+            {season.crop}
+          </dd>
         </div>
         <div>
-          <dt className="text-ink-muted">Luas</dt>
-          <dd className="mt-0.5 font-medium text-ink">
+          <dt className="text-ink-muted dark:text-white/50">Luas</dt>
+          <dd className="mt-0.5 font-medium text-ink dark:text-white">
             {formatNumber(haFromM2(field.areaM2))} ha
           </dd>
         </div>
         <div className="col-span-2">
-          <dt className="text-ink-muted">Kepemilikan</dt>
-          <dd className="mt-0.5 font-medium text-ink">
+          <dt className="text-ink-muted dark:text-white/50">Kepemilikan</dt>
+          <dd className="mt-0.5 font-medium text-ink dark:text-white">
             {ownershipLabel[field.ownership]}
           </dd>
         </div>
       </dl>
 
       <div className="mt-auto pt-6">
-        <div className="flex items-center justify-between gap-3 text-xs text-ink-muted">
+        <div className="flex items-center justify-between gap-3 text-xs text-ink-muted dark:text-white/50">
           <span className="min-w-0 flex-1 truncate">
             Progress · {season.label}
           </span>
           <span
             className={`shrink-0 font-semibold ${
-              progressPct > 100 ? "text-red-600" : "text-tulus-700"
+              progressPct > 100
+                ? "text-red-600 dark:text-[#E97366]"
+                : "text-tulus-700 dark:text-[#8fbdf0]"
             }`}
           >
             {formatNumber(progressPct)}%
           </span>
         </div>
-        <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
+        <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-white/10">
           <div
             className={`h-full rounded-full transition-all ${
-              progressPct > 100 ? "bg-red-500" : "bg-tulus-600"
+              progressPct > 100
+                ? "bg-red-500"
+                : "bg-tulus-600 dark:bg-[#5E9FE8]"
             }`}
             style={progressStyle(progressPct)}
           />
         </div>
-        <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-medium text-tulus-700 opacity-0 transition group-hover:opacity-100">
+        <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-medium text-tulus-700 opacity-0 transition group-hover:opacity-100 dark:text-[#8fbdf0]">
           <FiMaximize2 size={12} /> Klik untuk lihat detail
         </span>
       </div>

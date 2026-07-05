@@ -215,7 +215,7 @@ export function FieldDetailModal({
             exit={panelExit}
             transition={panelTransition}
             onClick={(e) => e.stopPropagation()}
-            className="flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-t-3xl bg-white shadow-2xl sm:max-h-[88vh] sm:rounded-3xl"
+            className="dark-surface flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-t-3xl bg-white shadow-2xl dark:bg-[#1c1c1c] sm:max-h-[88vh] sm:rounded-3xl"
           >
             <ModalBody field={field} season={season} onClose={onClose} />
           </motion.div>
@@ -304,7 +304,7 @@ function ModalBody({
   return (
     <>
       {/* Header (sticky) */}
-      <div className="relative shrink-0 border-b border-slate-100 bg-gradient-to-br from-tulus-50/80 to-white px-6 py-6 sm:px-8">
+      <div className="relative shrink-0 border-b border-slate-100 bg-gradient-to-br from-tulus-50/80 to-white px-6 py-6 dark:border-white/10 dark:from-[#202020] dark:to-[#1c1c1c] sm:px-8">
         <button
           onClick={onClose}
           aria-label="Tutup"

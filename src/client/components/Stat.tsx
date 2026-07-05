@@ -11,11 +11,17 @@ export function Stat({
 }) {
   return (
     <div>
-      <div className="font-display text-3xl font-medium leading-none text-ink sm:text-4xl">
+      <div className="font-display text-3xl font-medium leading-none text-ink dark:text-white sm:text-4xl">
         {value}
       </div>
-      <div className="mt-2 text-sm font-medium text-ink">{label}</div>
-      {sub ? <div className="mt-0.5 text-xs text-ink-muted">{sub}</div> : null}
+      <div className="mt-2 text-sm font-medium text-ink dark:text-white/90">
+        {label}
+      </div>
+      {sub ? (
+        <div className="mt-0.5 text-xs text-ink-muted dark:text-white/50">
+          {sub}
+        </div>
+      ) : null}
     </div>
   );
 }

@@ -19,16 +19,16 @@ export function SectionTitle({
           className={`flex items-center gap-2 ${isCenter ? "justify-center" : ""}`}
         >
           <span className="h-px w-6 bg-leaf-500" />
-          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-tulus-600">
+          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-tulus-600 dark:text-[#5E9FE8]">
             {eyebrow}
           </span>
         </div>
       ) : null}
-      <h2 className="mt-3 font-display text-3xl font-medium leading-tight text-ink sm:text-4xl">
+      <h2 className="mt-3 font-display text-3xl font-medium leading-tight text-ink dark:text-white sm:text-4xl">
         {title}
       </h2>
       {description ? (
-        <p className="mt-4 text-base leading-relaxed text-ink-muted">
+        <p className="mt-4 text-base leading-relaxed text-ink-muted dark:text-white/60">
           {description}
         </p>
       ) : null}

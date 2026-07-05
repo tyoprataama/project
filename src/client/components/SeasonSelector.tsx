@@ -14,12 +14,14 @@ export function SeasonSelector({
 
   return (
     <label
-      className={`inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm ${
+      className={`inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm dark:border-white/15 dark:bg-white/10 ${
         compact ? "" : "shadow-sm"
       }`}
     >
-      <FiCalendar size={14} className="text-tulus-600" />
-      <span className="text-xs font-medium text-ink-muted">Musim</span>
+      <FiCalendar size={14} className="text-tulus-600 dark:text-[#5E9FE8]" />
+      <span className="text-xs font-medium text-ink-muted dark:text-white/60">
+        Musim
+      </span>
       <select
         value={year}
         onChange={(e) => {
@@ -27,10 +29,10 @@ export function SeasonSelector({
           onSelect?.();
         }}
         aria-label="Pilih musim tanam"
-        className="cursor-pointer bg-transparent pr-1 text-sm font-semibold text-tulus-700 outline-none"
+        className="cursor-pointer bg-transparent pr-1 text-sm font-semibold text-tulus-700 outline-none dark:text-[#8fbdf0]"
       >
         {years.map((y) => (
-          <option key={y} value={y}>
+          <option key={y} value={y} className="text-ink">
             {y}
           </option>
         ))}

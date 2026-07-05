@@ -9,9 +9,12 @@ const ICONS: Record<WeatherKind, typeof FiSun> = {
 };
 
 const TONE: Record<WeatherKind, string> = {
-  cerah: "bg-amber-50 text-amber-700 ring-amber-600/20",
-  berawan: "bg-slate-100 text-slate-600 ring-slate-500/20",
-  hujan: "bg-blue-50 text-blue-700 ring-blue-600/20",
+  cerah:
+    "bg-amber-50 text-amber-700 ring-amber-600/20 dark:bg-amber-400/15 dark:text-[#e8c07a] dark:ring-amber-400/25",
+  berawan:
+    "bg-slate-100 text-slate-600 ring-slate-500/20 dark:bg-white/10 dark:text-white/70 dark:ring-white/20",
+  hujan:
+    "bg-blue-50 text-blue-700 ring-blue-600/20 dark:bg-[#5E9FE8]/15 dark:text-[#8fbdf0] dark:ring-[#5E9FE8]/25",
 };
 
 // Badge cuaca "hari ini" untuk membuat kartu lahan terasa hidup.

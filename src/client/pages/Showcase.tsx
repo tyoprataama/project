@@ -48,7 +48,7 @@ export default function Showcase() {
   return (
     <>
       {/* Header + KPI hero */}
-      <section className="border-b border-slate-200 bg-gradient-to-b from-tulus-50/70 to-white">
+      <section className="border-b border-slate-200 bg-gradient-to-b from-tulus-50/70 to-white dark:border-white/10 dark:from-[#202020] dark:to-[#191919]">
         <Container className="py-16 lg:py-20">
           <Reveal>
             <SectionTitle
@@ -57,7 +57,7 @@ export default function Showcase() {
               description="Beberapa indikator utama mengikuti musim yang dipilih dan dibandingkan dengan tahun sebelumnya. Data yang ditampilkan dapat menjadi insight untuk pengambilan keputusan kedepannya."
             />
           </Reveal>
-          <div className="mt-10 border-t border-slate-200 pt-8">
+          <div className="mt-10 border-t border-slate-200 pt-8 dark:border-white/10">
             <Reveal>
               <KpiCards items={kpis} />
             </Reveal>
@@ -66,7 +66,7 @@ export default function Showcase() {
       </section>
 
       {/* Portofolio lahan */}
-      <section className="bg-white py-20">
+      <section className="bg-white py-20 dark:bg-[#191919]">
         <Container>
           <Reveal>
             <SectionTitle
@@ -90,7 +90,7 @@ export default function Showcase() {
       </section>
 
       {/* Komposisi biaya */}
-      <section className="border-t border-slate-200 bg-slate-50/60 py-20">
+      <section className="border-t border-slate-200 bg-slate-50/60 py-20 dark:border-white/10 dark:bg-[#1c1c1c]">
         <Container>
           <Reveal>
             <SectionTitle
@@ -100,11 +100,11 @@ export default function Showcase() {
             />
           </Reveal>
           <Reveal delay={0.1}>
-            <div className="mt-12 rounded-2xl border border-slate-200 bg-white p-6 sm:p-8">
-              <h3 className="font-display text-lg font-medium text-ink">
+            <div className="mt-12 rounded-2xl border border-slate-200 bg-white p-6 dark:border-white/10 dark:bg-[#202020] sm:p-8">
+              <h3 className="font-display text-lg font-medium text-ink dark:text-white">
                 Komposisi Biaya
               </h3>
-              <p className="mt-1 text-sm text-ink-muted">
+              <p className="mt-1 text-sm text-ink-muted dark:text-white/60">
                 Total musim {year}: {formatCompactCurrency(cost.yearTotal)}
               </p>
               <div className="mt-4">
@@ -116,7 +116,7 @@ export default function Showcase() {
       </section>
 
       {/* Profitabilitas / P&L */}
-      <section className="bg-white py-20">
+      <section className="bg-white py-20 dark:bg-[#191919]">
         <Container>
           <Reveal>
             <SectionTitle
@@ -126,7 +126,7 @@ export default function Showcase() {
             />
           </Reveal>
           <Reveal delay={0.1}>
-            <div className="mt-12 rounded-2xl border border-slate-200 bg-white p-6 sm:p-8">
+            <div className="mt-12 rounded-2xl border border-slate-200 bg-white p-6 dark:border-white/10 dark:bg-[#202020] sm:p-8">
               <PnLChart rows={pnl.rows} allTimeMargin={pnl.allTimeMargin} />
             </div>
           </Reveal>
@@ -134,7 +134,7 @@ export default function Showcase() {
       </section>
 
       {/* Durasi tanam–panen (deviasi hari) */}
-      <section className="border-t border-slate-200 bg-slate-50/60 py-20">
+      <section className="border-t border-slate-200 bg-slate-50/60 py-20 dark:border-white/10 dark:bg-[#1c1c1c]">
         <Container>
           <Reveal>
             <SectionTitle
@@ -144,76 +144,76 @@ export default function Showcase() {
             />
           </Reveal>
           <Reveal delay={0.1}>
-            <div className="mt-12 rounded-2xl border border-slate-200 bg-white p-6 sm:p-8">
+            <div className="mt-12 rounded-2xl border border-slate-200 bg-white p-6 dark:border-white/10 dark:bg-[#202020] sm:p-8">
               <HarvestDeviationChart data={deviation} />
             </div>
           </Reveal>
         </Container>
       </section>
 
-      {/* Pendapatan, biaya & margin all-time (ditempatkan di akhir) */}
-      <section className="border-t border-slate-200 bg-white py-20">
+      {/* Pendapatan, biaya, margin & ROI all-time (ditempatkan di akhir) */}
+      <section className="border-t border-slate-200 bg-white py-20 dark:border-white/10 dark:bg-[#191919]">
         <Container>
           <Reveal>
             <SectionTitle
               eyebrow="All-time"
-              title="Pendapatan, biaya, margin, dan yield all-time"
-              description="Akumulasi seluruh musim yang tercatat mulai tahun 2023, termasuk musim yang masih berjalan/belum panen — biaya investasinya sudah masuk meski pendapatannya belum."
+              title="Pendapatan, biaya, margin, dan ROI all-time"
+              description="Akumulasi seluruh musim yang tercatat mulai tahun 2023, termasuk musim yang masih berjalan/belum panen — biaya investasinya sudah masuk meski pendapatannya belum. ROI = laba bersih dibagi total modal, lebih tepat untuk mengukur akumulasi lintas tahun (yield lebih cocok untuk satu musim/tahun)."
             />
           </Reveal>
           <Reveal delay={0.1}>
             <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              <div className="rounded-2xl border border-slate-200 bg-white p-6">
-                <p className="text-sm font-medium text-ink-muted">
+              <div className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-white/10 dark:bg-[#202020]">
+                <p className="text-sm font-medium text-ink-muted dark:text-white/60">
                   Total Pendapatan
                 </p>
-                <p className="mt-1 font-display text-2xl font-medium text-ink">
+                <p className="mt-1 font-display text-2xl font-medium text-ink dark:text-white">
                   {formatCompactCurrency(allTime.revenue)}
                 </p>
               </div>
-              <div className="rounded-2xl border border-slate-200 bg-white p-6">
-                <p className="text-sm font-medium text-ink-muted">
+              <div className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-white/10 dark:bg-[#202020]">
+                <p className="text-sm font-medium text-ink-muted dark:text-white/60">
                   Total Modal
                 </p>
-                <p className="mt-1 font-display text-2xl font-medium text-ink">
+                <p className="mt-1 font-display text-2xl font-medium text-ink dark:text-white">
                   {formatCompactCurrency(allTime.expenses)}
                 </p>
               </div>
-              <div className="rounded-2xl border border-slate-200 bg-white p-6">
-                <p className="text-sm font-medium text-ink-muted">
+              <div className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-white/10 dark:bg-[#202020]">
+                <p className="text-sm font-medium text-ink-muted dark:text-white/60">
                   Laba Bersih
                 </p>
-                <p className="mt-1 font-display text-2xl font-medium text-ink">
+                <p className="mt-1 font-display text-2xl font-medium text-ink dark:text-white">
                   {`Rp ${formatNumber(allTime.profit)}`}
                 </p>
               </div>
-              <div className="rounded-2xl border border-slate-200 bg-white p-6">
-                <p className="text-sm font-medium text-ink-muted">
+              <div className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-white/10 dark:bg-[#202020]">
+                <p className="text-sm font-medium text-ink-muted dark:text-white/60">
                   Margin Bersih
                 </p>
-                <p className="mt-1 font-display text-2xl font-medium text-ink">
+                <p className="mt-1 font-display text-2xl font-medium text-ink dark:text-white">
                   {allTime.margin}%
                 </p>
               </div>
-              <div className="rounded-2xl border border-slate-200 bg-white p-6">
-                <p className="text-sm font-medium text-ink-muted">
-                  Yield All-time
+              <div className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-white/10 dark:bg-[#202020]">
+                <p className="text-sm font-medium text-ink-muted dark:text-white/60">
+                  ROI All-time
                 </p>
-                <p className="mt-1 font-display text-2xl font-medium text-ink">
-                  {allTime.yieldPct}%
+                <p className="mt-1 font-display text-2xl font-medium text-ink dark:text-white">
+                  {allTime.roiPct}%
                 </p>
               </div>
             </div>
           </Reveal>
           <Reveal delay={0.15}>
-            <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 sm:p-8">
-              <h3 className="font-display text-lg font-medium text-ink">
-                Tren laba, pengeluaran &amp; margin per tahun
+            <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 dark:border-white/10 dark:bg-[#202020] sm:p-8">
+              <h3 className="font-display text-lg font-medium text-ink dark:text-white">
+                Tren laba, pengeluaran, margin &amp; ROI per tahun
               </h3>
-              <p className="mt-1 text-sm text-ink-muted">
+              <p className="mt-1 text-sm text-ink-muted dark:text-white/60">
                 Garis pendapatan, pengeluaran, dan laba bersih (skala kiri, Rp)
-                berpadu dengan margin bersih (skala kanan, %) yang saling
-                bersinggungan sepanjang 2023&ndash;2026.
+                berpadu dengan margin bersih dan ROI (skala kanan, %) yang
+                saling bersinggungan sepanjang 2023&ndash;2026.
               </p>
               <div className="mt-4">
                 <AllTimeTrendChart data={allTimeTrendData} />

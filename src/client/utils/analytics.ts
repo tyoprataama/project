@@ -99,9 +99,9 @@ export function kpiSummary(year: number): KpiItem[] {
     totalRevenueByYear(y) - totalExpensesByYear(y);
   // Yield finansial: laba bersih dibagi modal (pengeluaran) tahun tsb.
   const yieldPct = (y: number) => {
-  const exp = totalExpensesByYear(y);
-  return exp > 0 ? (marginRp(y) / exp) * 100 : 0;
-};
+    const exp = totalExpensesByYear(y);
+    return exp > 0 ? (marginRp(y) / exp) * 100 : 0;
+  };
 
   return [
     {
@@ -155,21 +155,21 @@ export function kpiSummary(year: number): KpiItem[] {
       label: "Margin Bersih",
       unit: "%",
       format: "pct",
-      current: round(marginByYear(year)),
-      benchmark: round(marginByYear(prev)),
+      current: round(marginByYear(year), 1),
+      benchmark: round(marginByYear(prev), 1),
       benchmarkLabel: "tahun sebelumnya",
-      series: years.map((y) => round(marginByYear(y))),
+      series: years.map((y) => round(marginByYear(y), 1)),
     },
     {
-    key: "yield",
-    label: "Yield",
-    unit: "%",
-    format: "pct",
-    current: round(yieldPct(year)),
-    benchmark: round(yieldPct(prev)),
-    benchmarkLabel: "tahun sebelumnya",
-    series: years.map((y) => round(yieldPct(y))),
-  },
+      key: "yield",
+      label: "Yield Tahun Ini",
+      unit: "%",
+      format: "pct",
+      current: round(yieldPct(year), 1),
+      benchmark: round(yieldPct(prev), 1),
+      benchmarkLabel: "tahun sebelumnya",
+      series: years.map((y) => round(yieldPct(y), 1)),
+    },
   ];
 }
 
@@ -179,7 +179,7 @@ export type AllTimeSummary = {
   expenses: number;
   profit: number;
   margin: number;
-  yieldPct: number;
+  roiPct: number;
 };
 
 export function allTimeSummary(): AllTimeSummary {
@@ -187,12 +187,12 @@ export function allTimeSummary(): AllTimeSummary {
   const expenses = totalExpenses();
   const profit = revenue - expenses;
   return {
-  revenue,
-  expenses,
-  profit,
-  margin: revenue > 0 ? round((profit / revenue) * 100) : 0,
-  yieldPct: expenses > 0 ? round((profit / expenses) * 100) : 0,
-};
+    revenue,
+    expenses,
+    profit,
+    margin: revenue > 0 ? round((profit / revenue) * 100, 1) : 0,
+    roiPct: expenses > 0 ? round((profit / expenses) * 100, 1) : 0,
+  };
 }
 
 // Tren per tahun untuk grafik garis all-time: pendapatan, pengeluaran, laba
@@ -203,6 +203,7 @@ export type AllTimeTrendRow = {
   expenses: number;
   profit: number;
   margin: number;
+  roi: number;
 };
 
 export function allTimeTrend(): AllTimeTrendRow[] {
@@ -218,7 +219,8 @@ export function allTimeTrend(): AllTimeTrendRow[] {
       revenue,
       expenses,
       profit,
-      margin: revenue > 0 ? round((profit / revenue) * 100) : 0,
+      margin: revenue > 0 ? round((profit / revenue) * 100, 1) : 0,
+      roi: expenses > 0 ? round((profit / expenses) * 100, 1) : 0,
     };
   });
 }
@@ -307,14 +309,15 @@ export function pnlByField(year: number): {
       revenue,
       cost,
       profit: revenue - cost,
-      margin: revenue > 0 ? round(((revenue - cost) / revenue) * 100) : 0,
+      margin: revenue > 0 ? round(((revenue - cost) / revenue) * 100, 1) : 0,
     };
   });
   const allRev = totalRevenue();
   const allExp = totalExpenses();
   return {
     rows,
-    allTimeMargin: allRev > 0 ? round(((allRev - allExp) / allRev) * 100) : 0,
+    allTimeMargin:
+      allRev > 0 ? round(((allRev - allExp) / allRev) * 100, 1) : 0,
   };
 }
 
@@ -323,10 +326,7 @@ export function pnlByField(year: number): {
 // Negatif = panen lebih cepat / belum jatuh tempo, Positif = telat (overdue).
 // =====================================================
 export type HarvestDeviationCategory =
-  | "cepat"
-  | "sesuai"
-  | "telat"
-  | "berjalan";
+  "cepat" | "sesuai" | "telat" | "berjalan";
 
 export type HarvestDeviationRow = {
   field: string;

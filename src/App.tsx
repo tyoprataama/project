@@ -3,12 +3,9 @@ import type { ReactNode } from "react";
 import AppRoutes from "./routes/AppRoutes";
 import { AuthProvider } from "./context/AuthContext";
 import { SeasonProvider } from "./context/SeasonContext";
-import {
-  initData,
-  reloadData,
-  useDataStatus,
-  getDataError,
-} from "./data";
+import { ThemeProvider } from "./client/theme";
+import { GlassFilter } from "./components/GlassFilter";
+import { initData, reloadData, useDataStatus, getDataError } from "./data";
 
 // Gerbang pemuatan data: pastikan data (dari Supabase) siap sebelum render
 // agar konteks musim & seluruh halaman membaca data yang sudah lengkap.
@@ -39,12 +36,11 @@ function DataGate({ children }: { children: ReactNode }) {
             Gagal memuat data
           </h1>
           <p className="mt-2 text-sm text-ink-muted">
-            {getDataError() ??
-              "Terjadi kesalahan saat menghubungi server."}
+            {getDataError() ?? "Terjadi kesalahan saat menghubungi server."}
           </p>
           <p className="mt-2 text-xs text-ink-muted">
-            Periksa konfigurasi .env (VITE_SUPABASE_URL & VITE_SUPABASE_ANON_KEY)
-            serta apakah skema SQL sudah dijalankan.
+            Periksa konfigurasi .env (VITE_SUPABASE_URL &
+            VITE_SUPABASE_ANON_KEY) serta apakah skema SQL sudah dijalankan.
           </p>
           <button
             onClick={() => void reloadData()}
@@ -62,12 +58,16 @@ function DataGate({ children }: { children: ReactNode }) {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <DataGate>
-        <SeasonProvider>
-          <AppRoutes />
-        </SeasonProvider>
-      </DataGate>
-    </AuthProvider>
+    <ThemeProvider>
+      {/* Filter SVG untuk efek kaca navbar (light & dark) */}
+      <GlassFilter />
+      <AuthProvider>
+        <DataGate>
+          <SeasonProvider>
+            <AppRoutes />
+          </SeasonProvider>
+        </DataGate>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }

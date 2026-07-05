@@ -46,7 +46,7 @@ export default function Home() {
           <div className="mt-7 flex flex-wrap gap-3">
             <button
               onClick={() => navigate("/admin/fields")}
-              className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-tulus-900 transition-colors hover:bg-tulus-50"
+              className="inline-flex items-center gap-2 rounded-full bg-[#ffffff] px-6 py-3 text-sm font-medium text-tulus-900 transition-colors hover:bg-tulus-50"
             >
               Kelola Lahan <FiArrowRight size={16} />
             </button>

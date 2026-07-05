@@ -7,7 +7,6 @@ import { SectionTitle } from "../components/SectionTitle";
 import { Stat } from "../components/Stat";
 import { FieldShowcaseCard } from "../components/FieldShowcaseCard";
 import { FieldDetailModal } from "../components/FieldDetailModal";
-import { profile } from "../constants/clientNav";
 import { useSeason } from "../../context/SeasonContext";
 import type { Field, Season } from "../../types";
 import {
@@ -102,47 +101,51 @@ export default function ClientHome() {
   return (
     <>
       {/* HERO */}
-      <section className="relative overflow-hidden border-b border-slate-200 bg-gradient-to-b from-tulus-50/70 via-white to-white">
+      <section className="relative overflow-hidden border-b border-slate-200 bg-gradient-to-b from-tulus-50/70 via-white to-white dark:border-white/10 dark:from-[#202020] dark:via-[#191919] dark:to-[#191919]">
         <Container className="grid items-center gap-12 py-20 lg:grid-cols-[1.05fr_0.95fr] lg:py-28">
           <div>
             <Reveal>
               <div className="flex items-center gap-2">
                 <span className="h-px w-6 bg-leaf-500" />
-                <span className="text-xs font-semibold uppercase tracking-[0.18em] text-tulus-600">
+                <span className="text-xs font-semibold uppercase tracking-[0.18em] text-tulus-600 dark:text-[#5E9FE8]">
                   Portfolio · Manajemen Aset & Operasi
                 </span>
               </div>
             </Reveal>
             <Reveal delay={0.05}>
-              <h1 className="mt-5 font-display text-4xl font-medium leading-[1.08] text-ink sm:text-5xl lg:text-6xl">
+              <h1 className="mt-5 font-display text-4xl font-medium leading-[1.08] text-ink dark:text-white sm:text-5xl lg:text-6xl">
                 Mengelola aset lapangan dengan data yang{" "}
-                <span className="text-tulus-700">jelas & terukur</span>.
+                <span className="text-tulus-700 dark:text-[#8fbdf0]">
+                  jelas & terukur
+                </span>
+                .
               </h1>
             </Reveal>
             <Reveal delay={0.1}>
-              <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-muted">
-                Taniku, platform Field Management System yang merangkum operasi lapangan dari
-                aktivitas harian hingga hasil & biaya menjadi informasi yang
-                mudah dibaca. Studi kasus ini menggunakan komoditas pertanian, namun
-                kerangka kerjanya (manajemen aset, monitoring, cost control,
-                catatan keputusan) dirancang agar mudah diimplementasikan ke{" "}
-                <span className="font-medium text-ink">
+              <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-muted dark:text-white/65">
+                Taniku, platform Field Management System yang merangkum operasi
+                lapangan dari aktivitas harian hingga hasil & biaya menjadi
+                informasi yang mudah dibaca. Studi kasus ini menggunakan
+                komoditas pertanian, namun kerangka kerjanya (manajemen aset,
+                monitoring, cost control, catatan keputusan) dirancang agar
+                mudah diimplementasikan ke{" "}
+                <span className="font-medium text-ink dark:text-white">
                   sektor industri
-                </span>.
-                {/* . Dibuat oleh {profile.name}. */}
+                </span>
+                .
               </p>
             </Reveal>
             <Reveal delay={0.15}>
               <div className="mt-8 flex flex-wrap items-center gap-3">
                 <Link
                   to="/showcase"
-                  className="inline-flex items-center gap-2 rounded-full bg-tulus-700 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-tulus-800"
+                  className="inline-flex items-center gap-2 rounded-full bg-tulus-700 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-tulus-800 dark:bg-[#2f6bb0] dark:hover:bg-[#3a7ac2]"
                 >
                   Lihat Showcase Data <FiArrowRight size={16} />
                 </Link>
                 <Link
                   to="/case-study"
-                  className="inline-flex items-center gap-2 rounded-full border border-slate-300 px-6 py-3 text-sm font-medium text-ink transition-colors hover:border-tulus-300 hover:text-tulus-700"
+                  className="inline-flex items-center gap-2 rounded-full border border-slate-300 px-6 py-3 text-sm font-medium text-ink transition-colors hover:border-tulus-300 hover:text-tulus-700 dark:border-white/20 dark:text-white dark:hover:border-white/40 dark:hover:text-white"
                 >
                   Baca Studi Kasus
                 </Link>
@@ -152,17 +155,17 @@ export default function ClientHome() {
 
           {/* Snapshot panel */}
           <Reveal delay={0.2}>
-            <div className="rounded-3xl border border-slate-200 bg-white p-7 shadow-[0_30px_70px_-40px_rgba(16,35,66,0.55)]">
+            <div className="rounded-3xl border border-slate-200 bg-white p-7 shadow-[0_30px_70px_-40px_rgba(16,35,66,0.55)] dark:border-white/10 dark:bg-[#202020] dark:shadow-[0_30px_70px_-40px_rgba(0,0,0,0.8)]">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xs font-medium uppercase tracking-[0.16em] text-ink-muted">
+                  <p className="text-xs font-medium uppercase tracking-[0.16em] text-ink-muted dark:text-white/55">
                     Ringkasan Operasi
                   </p>
-                  <p className="mt-1 font-display text-lg text-ink">
+                  <p className="mt-1 font-display text-lg text-ink dark:text-white">
                     Musim Tanam {year}
                   </p>
                 </div>
-                <span className="rounded-full bg-tulus-50 px-3 py-1 text-xs font-medium text-tulus-700">
+                <span className="rounded-full bg-tulus-50 px-3 py-1 text-xs font-medium text-tulus-700 dark:bg-white/10 dark:text-[#8fbdf0]">
                   {year}
                 </span>
               </div>
@@ -190,16 +193,20 @@ export default function ClientHome() {
                 />
               </div>
 
-              <div className="mt-6 border-t border-slate-100 pt-5">
+              <div className="mt-6 border-t border-slate-100 pt-5 dark:border-white/10">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-ink-muted">Aktivitas tercatat</span>
-                  <span className="font-semibold text-ink">
+                  <span className="text-ink-muted dark:text-white/60">
+                    Aktivitas tercatat
+                  </span>
+                  <span className="font-semibold text-ink dark:text-white">
                     {yearActivities.length} kegiatan
                   </span>
                 </div>
                 <div className="mt-2 flex items-center justify-between text-sm">
-                  <span className="text-ink-muted">Dokumentasi visual</span>
-                  <span className="font-semibold text-ink">
+                  <span className="text-ink-muted dark:text-white/60">
+                    Dokumentasi visual
+                  </span>
+                  <span className="font-semibold text-ink dark:text-white">
                     {yearGallery.length} foto
                   </span>
                 </div>
@@ -210,7 +217,7 @@ export default function ClientHome() {
       </section>
 
       {/* METRICS STRIP */}
-      <section className="border-b border-slate-200 bg-white">
+      <section className="border-b border-slate-200 bg-white dark:border-white/10 dark:bg-[#191919]">
         <Container className="grid gap-8 py-12 sm:grid-cols-2 lg:grid-cols-4">
           {metrics.map((m, i) => (
             <Reveal key={m.l} delay={i * 0.05}>
@@ -221,7 +228,7 @@ export default function ClientHome() {
       </section>
 
       {/* CAPABILITIES */}
-      <section className="bg-white py-20 lg:py-28">
+      <section className="bg-white py-20 dark:bg-[#191919] lg:py-28">
         <Container>
           <Reveal>
             <SectionTitle
@@ -233,19 +240,19 @@ export default function ClientHome() {
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {capabilities.map((c, i) => (
               <Reveal key={c.no} delay={i * 0.08}>
-                <div className="flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-7 transition-colors hover:border-tulus-200">
+                <div className="flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-7 transition-colors hover:border-tulus-200 dark:border-white/10 dark:bg-[#202020] dark:hover:border-[#5E9FE8]/40">
                   <div className="flex items-center justify-between">
-                    <span className="grid h-11 w-11 place-items-center rounded-xl bg-tulus-50 text-tulus-700">
+                    <span className="grid h-11 w-11 place-items-center rounded-xl bg-tulus-50 text-tulus-700 dark:bg-white/10 dark:text-[#8fbdf0]">
                       <c.icon size={20} />
                     </span>
-                    <span className="font-display text-2xl text-slate-200">
+                    <span className="font-display text-2xl text-slate-200 dark:text-white/15">
                       {c.no}
                     </span>
                   </div>
-                  <h3 className="mt-5 font-display text-xl font-medium text-ink">
+                  <h3 className="mt-5 font-display text-xl font-medium text-ink dark:text-white">
                     {c.title}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-ink-muted">
+                  <p className="mt-2 text-sm leading-relaxed text-ink-muted dark:text-white/60">
                     {c.text}
                   </p>
                 </div>
@@ -256,7 +263,7 @@ export default function ClientHome() {
       </section>
 
       {/* FEATURED FIELDS */}
-      <section className="border-t border-slate-200 bg-slate-50/60 py-20 lg:py-28">
+      <section className="border-t border-slate-200 bg-slate-50/60 py-20 dark:border-white/10 dark:bg-[#1c1c1c] lg:py-28">
         <Container>
           <div className="flex flex-wrap items-end justify-between gap-4">
             <Reveal>
@@ -268,7 +275,7 @@ export default function ClientHome() {
             <Reveal>
               <Link
                 to="/showcase"
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-tulus-700 hover:text-tulus-800"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-tulus-700 hover:text-tulus-800 dark:text-[#8fbdf0] dark:hover:text-white"
               >
                 Lihat semua lahan <FiArrowRight size={15} />
               </Link>
@@ -289,10 +296,10 @@ export default function ClientHome() {
       </section>
 
       {/* CTA */}
-      <section className="bg-white py-20 lg:py-28">
+      <section className="bg-white py-20 dark:bg-[#191919] lg:py-28">
         <Container>
           <Reveal>
-            <div className="overflow-hidden rounded-3xl bg-tulus-900 px-8 py-14 text-center sm:px-16">
+            <div className="overflow-hidden rounded-3xl bg-tulus-900 px-8 py-14 text-center dark:bg-[#0f1f38] sm:px-16">
               <h2 className="mx-auto max-w-2xl font-display text-3xl font-medium leading-tight text-white sm:text-4xl">
                 Ingin melihat bagaimana data ini dirangkum?
               </h2>
