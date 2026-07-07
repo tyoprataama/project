@@ -6,6 +6,7 @@ import {
   fieldsByYear,
   getSeasonByFieldYear,
   getReportBySeason,
+  getSeasonsByField,
   totalRevenueBySeason,
   totalExpensesBySeason,
   totalRevenueByYear,
@@ -162,7 +163,7 @@ export function kpiSummary(year: number): KpiItem[] {
     },
     {
       key: "yield",
-      label: "Yield Tahun Ini",
+      label: "Yield",
       unit: "%",
       format: "pct",
       current: round(yieldPct(year), 1),
@@ -223,6 +224,40 @@ export function allTimeTrend(): AllTimeTrendRow[] {
       roi: expenses > 0 ? round((profit / expenses) * 100, 1) : 0,
     };
   });
+}
+
+// =====================================================
+// Keuangan per lahan sepanjang waktu (all-time)
+// Setiap baris = satu musim lahan tsb (unik per tahun), berisi pendapatan,
+// pengeluaran, dan laba bersih. Dipakai grafik di modal detail lahan.
+// =====================================================
+export type FieldFinanceRow = {
+  seasonId: string;
+  year: number;
+  label: string;
+  crop: string;
+  revenue: number;
+  expenses: number;
+  profit: number;
+};
+
+export function fieldFinanceTrend(fieldId: string): FieldFinanceRow[] {
+  return getSeasonsByField(fieldId)
+    .slice()
+    .sort((a, b) => a.year - b.year)
+    .map((s) => {
+      const revenue = totalRevenueBySeason(s.id);
+      const expenses = totalExpensesBySeason(s.id);
+      return {
+        seasonId: s.id,
+        year: s.year,
+        label: s.label,
+        crop: s.crop,
+        revenue,
+        expenses,
+        profit: revenue - expenses,
+      };
+    });
 }
 
 // =====================================================

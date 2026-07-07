@@ -12,6 +12,7 @@ import {
   FiTrendingUp,
   FiInfo,
   FiHome,
+  FiBarChart2,
 } from "react-icons/fi";
 import type { Field, Season } from "../../types";
 import { fieldStatusMeta } from "../constants/fieldMeta";
@@ -37,6 +38,8 @@ import {
   formatNumber,
 } from "../../utils/format";
 import { WeatherBadge } from "./WeatherBadge";
+import { FieldFinanceChart } from "./Charts";
+import { fieldFinanceTrend } from "../utils/analytics";
 import {
   deviationInfo,
   growthProgress,
@@ -251,6 +254,17 @@ function ModalBody({
   const latestMonitor = monitors[monitors.length - 1];
   const expenseTotal = totalExpensesBySeason(season.id);
   const revenueTotal = totalRevenueBySeason(season.id);
+  // Riwayat keuangan lahan sepanjang waktu (semua musim/tahun) untuk grafik.
+  const financeTrend = fieldFinanceTrend(season.fieldId);
+  const financeTotals = financeTrend.reduce(
+    (acc, r) => {
+      acc.revenue += r.revenue;
+      acc.expenses += r.expenses;
+      return acc;
+    },
+    { revenue: 0, expenses: 0 },
+  );
+  const financeProfit = financeTotals.revenue - financeTotals.expenses;
   const progressPct = growthProgress(season);
   // Biaya sewa efektif musim ini mengikuti pengeluaran kategori "rent" pada
   // musim tsb (agar perubahan biaya sewa yang diedit di admin langsung
@@ -711,6 +725,55 @@ function ModalBody({
               di atas).
             </p>
           ) : null}
+        </Section>
+
+        {/* Riwayat Keuangan Lahan (all-time) */}
+        <Section
+          icon={FiBarChart2}
+          title="Riwayat Keuangan Lahan"
+          hint="Pendapatan dan pengeluaran lahan ini sepanjang waktu (setiap tahun/musim), beserta garis laba bersih. Musim yang masih berjalan biasanya baru memuat pengeluaran."
+        >
+          {financeTrend.length ? (
+            <>
+              <div className="mb-4 grid grid-cols-3 gap-3 text-center">
+                <div className="rounded-xl bg-leaf-50 px-3 py-3 dark:bg-white/5">
+                  <p className="text-xs text-leaf-700 dark:text-[#72BC8F]">
+                    Pendapatan
+                  </p>
+                  <p className="mt-0.5 font-display text-base font-semibold text-leaf-700 dark:text-[#72BC8F]">
+                    {formatCompactCurrency(financeTotals.revenue)}
+                  </p>
+                </div>
+                <div className="rounded-xl bg-red-50 px-3 py-3 dark:bg-white/5">
+                  <p className="text-xs text-red-700 dark:text-[#E97366]">
+                    Pengeluaran
+                  </p>
+                  <p className="mt-0.5 font-display text-base font-semibold text-red-700 dark:text-[#E97366]">
+                    {formatCompactCurrency(financeTotals.expenses)}
+                  </p>
+                </div>
+                <div className="rounded-xl bg-slate-50 px-3 py-3 dark:bg-white/5">
+                  <p className="text-xs text-ink-muted dark:text-white/60">
+                    Laba Bersih
+                  </p>
+                  <p
+                    className={`mt-0.5 font-display text-base font-semibold ${
+                      financeProfit < 0
+                        ? "text-red-600 dark:text-[#E97366]"
+                        : "text-tulus-700 dark:text-[#8fbdf0]"
+                    }`}
+                  >
+                    {formatCompactCurrency(financeProfit)}
+                  </p>
+                </div>
+              </div>
+              <FieldFinanceChart data={financeTrend} />
+            </>
+          ) : (
+            <p className="text-sm text-ink-muted">
+              Belum ada data keuangan untuk lahan ini.
+            </p>
+          )}
         </Section>
 
         {/* Gallery */}

@@ -307,6 +307,80 @@ export function AllTimeTrendChart({
   );
 }
 
+// ---------- Keuangan per lahan sepanjang waktu (bar pendapatan vs biaya + garis laba) ----------
+export function FieldFinanceChart({
+  data,
+}: {
+  data: Array<{
+    seasonId: string;
+    year: number;
+    label: string;
+    crop: string;
+    revenue: number;
+    expenses: number;
+    profit: number;
+  }>;
+}) {
+  const t = useChartTheme();
+  const tickMuted = axisTick(t.muted);
+  const tickInk = axisTick(t.text);
+  return (
+    <ResponsiveContainer width="100%" height={300}>
+      <ComposedChart data={data} margin={hMargin}>
+        <CartesianGrid vertical={false} stroke={t.grid} />
+        <XAxis
+          dataKey="year"
+          tick={tickInk}
+          tickLine={false}
+          axisLine={false}
+        />
+        <YAxis
+          tick={tickMuted}
+          tickFormatter={fmtRpAxis}
+          width={48}
+          axisLine={false}
+          tickLine={false}
+        />
+        <Tooltip
+          contentStyle={tooltipStyle(t)}
+          labelStyle={tipTextStyle(t)}
+          itemStyle={tipTextStyle(t)}
+          formatter={(value: number, name: string) => [
+            formatCurrency(Number(value)),
+            name,
+          ]}
+          cursor={lineCursor}
+        />
+        <Legend />
+        <ReferenceLine y={0} stroke={t.zero} />
+        <Bar
+          dataKey="revenue"
+          name="Pendapatan"
+          fill={t.barRevenue}
+          radius={radiusTop}
+          maxBarSize={26}
+        />
+        <Bar
+          dataKey="expenses"
+          name="Pengeluaran"
+          fill={t.expense}
+          radius={radiusTop}
+          maxBarSize={26}
+        />
+        <Line
+          type="monotone"
+          dataKey="profit"
+          name="Laba Bersih"
+          stroke={t.profit}
+          strokeWidth={2.5}
+          dot={lineDot}
+          activeDot={lineActiveDot}
+        />
+      </ComposedChart>
+    </ResponsiveContainer>
+  );
+}
+
 // ---------- KPI hero cards ----------
 function formatKpi(it: KpiItem): string {
   if (it.format === "rp") return formatCompactCurrency(it.current);
