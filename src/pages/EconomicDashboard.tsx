@@ -146,10 +146,11 @@ export default function EconomicDashboard() {
   // Kategori biaya yang tersedia pada periode terpilih (untuk dropdown filter).
   const expenseCatOptions = useMemo(
     () =>
-      (Array.from(new Set(periodExpenses.map((e) => e.category))) as
-        ExpenseCategory[]).sort((a, b) =>
-        categoryLabel[a].localeCompare(categoryLabel[b]),
-      ),
+      (
+        Array.from(
+          new Set(periodExpenses.map((e) => e.category)),
+        ) as ExpenseCategory[]
+      ).sort((a, b) => categoryLabel[a].localeCompare(categoryLabel[b])),
     [periodExpenses],
   );
   const filteredExpenses = recentExpenses.filter(
@@ -229,12 +230,21 @@ export default function EconomicDashboard() {
           icon={FiPercent}
           accentClass="bg-amber-50 text-amber-600"
         />
-        <StatisticCard
-          label="Yield %"
-          value={`${formatNumber(yieldPct)}%`}
-          icon={FiPercent}
-          accentClass="bg-violet-50 text-violet-600"
-        />
+        {period !== "all" ? (
+          <StatisticCard
+            label="Yield %"
+            value={`${formatNumber(yieldPct)}%`}
+            icon={FiPercent}
+            accentClass="bg-violet-50 text-violet-600"
+          />
+        ) : (
+          <StatisticCard
+            label="ROI"
+            value={`${formatNumber(yieldPct)}%`}
+            icon={FiTarget}
+            accentClass="bg-violet-50 text-violet-600"
+          />
+        )}
       </div>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-2">

@@ -19,7 +19,20 @@ import {
   haFromM2,
   useDataVersion,
 } from "../data";
-import { formatCompactCurrency } from "../utils/format";
+import {
+  ResponsiveContainer,
+  ComposedChart,
+  Bar,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ReferenceLine,
+} from "recharts";
+import { formatCompactCurrency, formatCurrency } from "../utils/format";
+import { useTheme } from "../client/theme";
 import type { Season } from "../types";
 
 interface SeasonBreakdown {
@@ -118,6 +131,14 @@ export default function FieldComparison() {
   );
 
   const isAll = period === "all";
+  const periodLabel = isAll ? "seluruh waktu" : `musim ${period}`;
+  // Data grafik mengikuti periode terpilih (baris sudah difilter per periode).
+  const chartData = rows.map((r) => ({
+    name: r.fieldName,
+    Pendapatan: r.revenue,
+    Biaya: r.expense,
+    Laba: r.profit,
+  }));
   const toggle = (id: string) =>
     setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
 
@@ -125,11 +146,19 @@ export default function FieldComparison() {
     <PageTransition>
       <PageHeader
         title="Field Comparison"
-        description="Perbandingan kinerja antar lahan per musim atau seluruh waktu."
+        description={`Perbandingan kinerja antar lahan · ${periodLabel}.`}
         actions={
           <PeriodFilter value={period} onChange={setPeriod} years={years} />
         }
       />
+      {chartData.length ? (
+        <Card className="mb-6 p-5">
+          <h3 className="mb-4 font-semibold text-slate-800">
+            Pendapatan, Biaya & Laba per Lahan · {periodLabel}
+          </h3>
+          <ComparisonChart data={chartData} />
+        </Card>
+      ) : null}
       <Card className="overflow-x-auto">
         <table className="w-full min-w-[820px] text-left text-sm">
           <thead className="border-b border-slate-200 bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
@@ -291,5 +320,107 @@ function FragmentRow({
           ))
         : null}
     </>
+  );
+}
+
+// ---------- Grafik perbandingan (mengikuti periode terpilih) ----------
+const chartMargin = { top: 8, right: 16, bottom: 4, left: 8 };
+const barRadius: [number, number, number, number] = [4, 4, 0, 0];
+
+const fmtRpAxis = (v: number) => {
+  const n = Number(v);
+  const abs = Math.abs(n);
+  const sign = n < 0 ? "-" : "";
+  if (abs >= 1_000_000_000)
+    return `${sign}${(abs / 1_000_000_000).toFixed(1)}M`;
+  if (abs >= 1_000_000) return `${sign}${Math.round(abs / 1_000_000)}jt`;
+  if (abs >= 1_000) return `${sign}${Math.round(abs / 1_000)}rb`;
+  return `${sign}${abs}`;
+};
+
+function ComparisonChart({
+  data,
+}: {
+  data: Array<{
+    name: string;
+    Pendapatan: number;
+    Biaya: number;
+    Laba: number;
+  }>;
+}) {
+  const { isDark } = useTheme();
+  const text = isDark ? "#ffffff" : "#0c111b";
+  const muted = isDark ? "rgba(255,255,255,0.65)" : "#5b6675";
+  const grid = isDark ? "rgba(255,255,255,0.10)" : "#eef2f7";
+  const zero = isDark ? "rgba(255,255,255,0.35)" : "#5b6675";
+  const cRevenue = isDark ? "#72BC8F" : "#1aa46a";
+  const cExpense = isDark ? "#E97366" : "#ef4444";
+  const cProfit = isDark ? "#5E9FE8" : "#214e8a";
+  const tooltipStyle = {
+    background: isDark ? "#202020" : "#ffffff",
+    border: `1px solid ${isDark ? "rgba(255,255,255,0.15)" : "#e2e8f0"}`,
+    borderRadius: 12,
+    color: text,
+  };
+  const tipText = { color: text };
+  const tickMuted = { fontSize: 12, fill: muted };
+  const tickInk = { fontSize: 12, fill: text };
+  const dotSm = { r: 3 };
+  const dotLg = { r: 5 };
+  const cursorFill = {
+    fill: isDark ? "rgba(255,255,255,0.06)" : "rgba(15,23,42,0.04)",
+  };
+  return (
+    <ResponsiveContainer width="100%" height={320}>
+      <ComposedChart data={data} margin={chartMargin}>
+        <CartesianGrid vertical={false} stroke={grid} />
+        <XAxis
+          dataKey="name"
+          tick={tickInk}
+          tickLine={false}
+          axisLine={false}
+          interval={0}
+        />
+        <YAxis
+          tick={tickMuted}
+          tickFormatter={fmtRpAxis}
+          width={48}
+          axisLine={false}
+          tickLine={false}
+        />
+        <Tooltip
+          contentStyle={tooltipStyle}
+          labelStyle={tipText}
+          itemStyle={tipText}
+          formatter={(value: number, name: string) => [
+            formatCurrency(Number(value)),
+            name,
+          ]}
+          cursor={cursorFill}
+        />
+        <Legend />
+        <ReferenceLine y={0} stroke={zero} />
+        <Bar
+          dataKey="Pendapatan"
+          fill={cRevenue}
+          radius={barRadius}
+          maxBarSize={40}
+        />
+        <Bar
+          dataKey="Biaya"
+          fill={cExpense}
+          radius={barRadius}
+          maxBarSize={40}
+        />
+        <Line
+          type="monotone"
+          dataKey="Laba"
+          stroke={cProfit}
+          strokeWidth={2.5}
+          dot={dotSm}
+          activeDot={dotLg}
+        />
+      </ComposedChart>
+    </ResponsiveContainer>
   );
 }

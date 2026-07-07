@@ -7,6 +7,8 @@ import {
   FiTrendingUp,
   FiTrendingDown,
   FiDollarSign,
+  FiPercent,
+  FiTarget,
 } from "react-icons/fi";
 import { PageTransition } from "../components/ui/PageTransition";
 import { PageHeader } from "../components/ui/PageHeader";
@@ -22,6 +24,7 @@ import {
   getExpensesByField,
   getLatestSeason,
   getSeasonByFieldYear,
+  fieldsByYear,
   seasonsByYear,
   totalRevenueBySeason,
   totalExpensesBySeason,
@@ -35,13 +38,16 @@ import { harvestInfo } from "../utils/harvest";
 
 export default function Overview() {
   // Reaktif terhadap store agar ringkasan selalu mengikuti input terbaru.
-  useDataVersion();
+  const version = useDataVersion();
   const years = getAvailableYears();
   const [period, setPeriod] = useState<Period>(() => getLatestYear());
   const isAll = period === "all";
 
   const rows = useMemo(() => {
-    return fields.map((f) => {
+    // Total lahan & luas ikut periode: satu musim => hanya lahan yang punya
+    // musim di tahun itu; all-time => seluruh lahan.
+    const list = isAll ? fields : fieldsByYear(period as number);
+    return list.map((f) => {
       const season = isAll
         ? getLatestSeason(f.id)
         : getSeasonByFieldYear(f.id, period as number);
@@ -69,9 +75,9 @@ export default function Overview() {
         profit: revenue - expense,
       };
     });
-  }, [period, isAll]);
+  }, [period, isAll, version]);
 
-  const totalAreaM2 = fields.reduce((s, f) => s + f.areaM2, 0);
+  const totalAreaM2 = rows.reduce((s, r) => s + r.field.areaM2, 0);
   const activeCount = rows.filter((r) => r.season?.status === "active").length;
   const overdueCount = rows.filter((r) => r.info?.state === "overdue").length;
 
@@ -85,6 +91,14 @@ export default function Overview() {
     { revenue: 0, expense: 0, profit: 0 },
   );
 
+  // Margin = laba/pendapatan; Yield/ROI = laba/biaya (nama kontekstual:
+  // "Yield" untuk satu musim, "ROI" untuk seluruh waktu).
+  const marginPct =
+    totals.revenue > 0 ? (totals.profit / totals.revenue) * 100 : 0;
+  const returnPct =
+    totals.expense > 0 ? (totals.profit / totals.expense) * 100 : 0;
+  const pct1 = (n: number) => formatNumber(Math.round(n * 10) / 10);
+
   const recent = useMemo(() => {
     let list = activities;
     if (!isAll) {
@@ -94,7 +108,7 @@ export default function Overview() {
     return [...list]
       .sort((a, b) => +new Date(b.date) - +new Date(a.date))
       .slice(0, 5);
-  }, [period, isAll]);
+  }, [period, isAll, version]);
 
   const periodLabel = isAll ? "seluruh waktu" : `musim ${period}`;
 
@@ -111,7 +125,7 @@ export default function Overview() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatisticCard
           label="Total Lahan"
-          value={`${fields.length}`}
+          value={`${rows.length}`}
           icon={FiGrid}
         />
         <StatisticCard
@@ -138,7 +152,7 @@ export default function Overview() {
         />
       </div>
 
-      <div className="mt-4 grid gap-4 sm:grid-cols-3">
+      <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <StatisticCard
           label="Total Pendapatan"
           value={formatCompactCurrency(totals.revenue)}
@@ -157,6 +171,27 @@ export default function Overview() {
           icon={FiDollarSign}
           accentClass="bg-blue-50 text-blue-600"
         />
+        <StatisticCard
+          label="Margin %"
+          value={`${pct1(marginPct)}%`}
+          icon={FiPercent}
+          accentClass="bg-amber-50 text-amber-600"
+        />
+        {isAll ? (
+          <StatisticCard
+            label="ROI"
+            value={`${pct1(returnPct)}%`}
+            icon={FiTarget}
+            accentClass="bg-violet-50 text-violet-600"
+          />
+        ) : (
+          <StatisticCard
+            label="Yield %"
+            value={`${pct1(returnPct)}%`}
+            icon={FiTarget}
+            accentClass="bg-violet-50 text-violet-600"
+          />
+        )}
       </div>
 
       <h2 className="mb-4 mt-10 font-display text-xl font-medium text-ink">
