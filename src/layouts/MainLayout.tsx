@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { Navbar } from "./Navbar";
 import { SidebarContent } from "./Sidebar";
@@ -7,6 +8,16 @@ import { useDisclosure } from "../hooks/useDisclosure";
 
 export default function MainLayout() {
   const drawer = useDisclosure();
+
+  // Ubah judul tab browser saat masuk mode admin, lalu kembalikan ke judul
+  useEffect(() => {
+    const previous = document.title;
+    document.title = "Admin Taniku";
+    return () => {
+      document.title = previous;
+    };
+  }, []);
+
   return (
     <div className="dark-surface min-h-screen bg-slate-50 text-ink transition-colors duration-300 dark:bg-[#191919] dark:text-white">
       <Navbar onMenuClick={drawer.open} />
